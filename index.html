@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FINDY — 1:1 로테이션 소개팅</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#F5EDE0; --ink:#1A1A1A; --muted:#6B6460; --line:#E2D9CC;
+    --accent:#C42B2B; --accent-soft:#F5E0E0;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:'IBM Plex Sans KR',sans-serif;line-height:1.7;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:720px;margin:0 auto;padding:0 28px;}
+
+  nav{border-bottom:1px solid var(--line);position:sticky;top:0;z-index:50;background:rgba(245,237,224,.95);backdrop-filter:blur(6px);}
+  nav .wrap{display:flex;align-items:center;justify-content:space-between;height:72px;}
+  .logo{font-size:18px;font-weight:700;color:var(--ink);text-decoration:none;letter-spacing:.02em;}
+  .nav-links{display:flex;gap:20px;align-items:center;}
+  .nav-links a{font-size:13.5px;font-weight:600;color:var(--muted);text-decoration:none;}
+  .nav-links a:hover{color:var(--ink);}
+  .nav-cta{font-size:13.5px;font-weight:600;color:var(--accent)!important;background:var(--accent-soft);padding:8px 14px;border-radius:6px;}
+
+  section{padding:64px 0;border-bottom:1px solid var(--line);}
+  section:last-of-type{border-bottom:none;}
+  .eyebrow{color:var(--accent);font-size:13.5px;font-weight:600;margin-bottom:14px;}
+  h2{font-size:22px;font-weight:700;margin:0 0 10px;letter-spacing:-.01em;}
+
+  .hero{padding:80px 0 56px;}
+  h1{font-size:34px;line-height:1.5;font-weight:700;margin:0 0 18px;letter-spacing:-.015em;max-width:500px;}
+  .hero .sub{font-size:16px;color:var(--muted);max-width:440px;margin:0 0 28px;}
+  .btn-primary{background:var(--accent);color:#fff;border:none;border-radius:8px;padding:14px 24px;font-size:14.5px;font-weight:600;cursor:pointer;font-family:inherit;}
+  .btn-text{background:none;border:none;color:var(--ink);font-size:14.5px;font-weight:600;cursor:pointer;font-family:inherit;text-decoration:underline;text-underline-offset:3px;margin-left:18px;}
+
+  .position-row{display:flex;gap:24px;margin-top:32px;padding-top:24px;border-top:1px solid var(--line);flex-wrap:wrap;}
+  .position-item{flex:1;min-width:160px;}
+  .position-item h3{font-size:13px;color:var(--muted);font-weight:600;margin:0 0 6px;}
+  .position-item p{font-size:14.5px;margin:0;font-weight:500;}
+
+  .round-strip{display:flex;border-top:1px solid var(--line);border-bottom:1px solid var(--line);}
+  .round-cell{flex:1;text-align:center;padding:20px 8px;border-right:1px solid var(--line);}
+  .round-cell:last-child{border-right:none;}
+  .round-cell b{display:block;font-size:16px;margin-bottom:3px;}
+  .round-cell span{font-size:11.5px;color:var(--muted);}
+
+  .flow-list{counter-reset:flow;max-width:520px;}
+  .flow-item{display:flex;gap:16px;padding:18px 0;border-bottom:1px solid var(--line);}
+  .flow-item:last-child{border-bottom:none;}
+  .flow-item::before{counter-increment:flow;content:counter(flow);font-size:13px;font-weight:700;color:var(--accent);width:20px;flex:0 0 auto;}
+  .flow-item h4{margin:0 0 3px;font-size:14.5px;font-weight:700;}
+  .flow-item p{margin:0;font-size:13.5px;color:var(--muted);}
+
+  .trust-list{display:flex;flex-direction:column;gap:20px;}
+  .trust-item{display:flex;gap:16px;align-items:baseline;}
+  .trust-item .t-label{font-size:14px;font-weight:700;width:140px;flex:0 0 auto;}
+  .trust-item .t-desc{font-size:14px;color:var(--muted);}
+
+  .session-row{padding:20px 0;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;}
+  .session-row:first-child{border-top:1px solid var(--line);}
+  .s-main b{font-size:15px;display:block;margin-bottom:3px;}
+  .s-main span{font-size:13px;color:var(--muted);}
+  .s-tags{font-size:12.5px;color:var(--muted);}
+  .s-price{font-size:13px;color:var(--ink);font-weight:600;}
+  .btn-small{background:none;border:1px solid var(--accent);border-radius:8px;padding:8px 16px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;text-decoration:none;color:var(--accent);}
+  .btn-small.disabled{border-color:var(--line);color:var(--muted);cursor:default;}
+
+  .price-table{width:100%;border-collapse:collapse;font-size:13.5px;margin-bottom:14px;}
+  .price-table th,.price-table td{border:1px solid var(--line);padding:12px;text-align:center;}
+  .price-table th{font-weight:600;color:var(--muted);font-size:12px;}
+  .price-table td b{font-size:15px;}
+  .price-note{font-size:12.5px;color:var(--muted);margin:0 0 8px;}
+
+  .refund-table{width:100%;border-collapse:collapse;font-size:12px;margin:16px 0;}
+  .refund-table th,.refund-table td{border:1px solid var(--line);padding:9px;text-align:center;}
+  .refund-table th{font-weight:600;color:var(--muted);}
+
+  details{border-bottom:1px solid var(--line);padding:16px 0;}
+  summary{cursor:pointer;font-weight:600;font-size:14.5px;list-style:none;display:flex;justify-content:space-between;}
+  summary::-webkit-details-marker{display:none;}
+  summary::after{content:'+';color:var(--accent);font-size:18px;}
+  details[open] summary::after{content:'–';}
+  details p{margin:10px 0 0;color:var(--muted);font-size:13.5px;}
+  .faq-group{font-size:12px;font-weight:700;color:var(--accent);margin:24px 0 4px;text-transform:uppercase;}
+
+  footer{padding:36px 0 44px;}
+  .f-brand{font-size:15px;font-weight:700;margin-bottom:12px;}
+  .f-legal{font-size:11.5px;color:var(--muted);line-height:2;}
+  .f-legal b{color:var(--ink);}
+  .f-links{display:flex;gap:16px;margin-top:14px;font-size:12.5px;}
+  .f-links a{color:var(--muted);text-decoration:underline;text-underline-offset:3px;}
+
+  @media(max-width:600px){
+    h1{font-size:27px;}
+    .round-strip{flex-wrap:wrap;}
+    .round-cell{flex:0 0 50%;border-bottom:1px solid var(--line);}
+    .trust-item{flex-direction:column;gap:4px;}
+    .trust-item .t-label{width:auto;}
+    .position-row{flex-direction:column;gap:12px;}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a class="logo" href="#">FINDY</a>
+    <div class="nav-links">
+      <a href="#how">진행 방식</a>
+      <a href="#sessions">일정</a>
+      <a href="#faq">FAQ</a>
+      <a class="nav-cta" href="#sessions">신청하기</a>
+    </div>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="wrap">
+    <div class="eyebrow">FInally fouND You · 1:1 로테이션 소개팅</div>
+    <h1>결정사는 부담스럽고,<br>앱은 불안한 당신에게.</h1>
+    <p class="sub">12명의 이성과 직접 마주 앉아 대화하고, 마음이 맞으면 연락처를 주고받는 — 가장 현실적이고 효율적인 만남의 방식이에요.</p>
+    <div>
+      <button class="btn-primary" onclick="document.getElementById('sessions').scrollIntoView({behavior:'smooth'})">다가오는 일정 보기</button>
+      <button class="btn-text" onclick="document.getElementById('how').scrollIntoView({behavior:'smooth'})">어떻게 진행되나요?</button>
+    </div>
+
+    <div class="position-row">
+      <div class="position-item">
+        <h3>어플 vs FINDY</h3>
+        <p>화면 속 조건이 아니라<br>직접 만나서 확인해요</p>
+      </div>
+      <div class="position-item">
+        <h3>결정사 vs FINDY</h3>
+        <p>수백만 원 대신<br>한 번에 3~5만 원</p>
+      </div>
+      <div class="position-item">
+        <h3>1:1 소개팅 vs FINDY</h3>
+        <p>한 번에 한 명이 아니라<br>한 번에 열두 명</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="how">
+  <div class="wrap">
+    <div class="eyebrow">진행 방식</div>
+    <h2>한 사람당 10분, 열두 라운드</h2>
+    <p style="color:var(--muted);font-size:14.5px;margin-bottom:24px;">여성 12명 · 남성 12명이 참석하고, 모든 이성과 한 번씩 1:1로 대화해요.</p>
+    <div class="round-strip">
+      <div class="round-cell"><b>10분</b><span>1:1 대화</span></div>
+      <div class="round-cell"><b>1분</b><span>자리 이동</span></div>
+      <div class="round-cell"><b>12회</b><span>라운드</span></div>
+      <div class="round-cell"><b>~2시간</b><span>총 소요</span></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="eyebrow">어떻게 진행되나요?</div>
+    <h2>신청부터 매칭까지</h2>
+    <div class="flow-list">
+      <div class="flow-item"><div><h4>신청서 제출</h4><p>아래 일정에서 원하는 회차를 선택하고 신청서를 보내요.</p></div></div>
+      <div class="flow-item"><div><h4>선정 & 신원 확인</h4><p>호스트가 검토 후 선정되신 분께 개별 연락드려요. 선정 후 재직증명서 등으로 간단히 신원을 확인해요.</p></div></div>
+      <div class="flow-item"><div><h4>참가비 입금</h4><p>확정 안내와 함께 계좌번호를 전달드려요. 입금이 확인되면 참가가 최종 확정돼요.</p></div></div>
+      <div class="flow-item"><div><h4>당일 참석 & 로테이션</h4><p>10분 전까지 도착해서 체크인하면, 닉네임 명찰을 받고 바로 시작해요.</p></div></div>
+      <div class="flow-item"><div><h4>호감 표시 & 매칭</h4><p>모든 라운드가 끝나면 마음에 든 상대를 표시해요. 서로 표시한 경우에만 연락처를 전달해드려요.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="eyebrow">왜 FINDY인가요</div>
+    <h2>&nbsp;</h2>
+    <div class="trust-list" style="margin-top:-8px;">
+      <div class="trust-item"><div class="t-label">신원 확인</div><div class="t-desc">선정된 분에 한해 재직증명서 등으로 신원을 확인해요. 검증된 사람끼리만 만나요.</div></div>
+      <div class="trust-item"><div class="t-label">호스트 진행</div><div class="t-desc">현장에서 호스트가 직접 타이머를 운영하고, 처음 오신 분도 편하게 적응하도록 안내해요.</div></div>
+      <div class="trust-item"><div class="t-label">매칭 안내</div><div class="t-desc">서로 호감을 표시한 경우에만 연락처를 전달해요. 일방적으로 공개되지 않아요.</div></div>
+      <div class="trust-item"><div class="t-label">직접 운영</div><div class="t-desc">대행사 없이, 장소 섭외부터 당일 진행까지 직접 기획하고 관리해요.</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="sessions">
+  <div class="wrap">
+    <div class="eyebrow">일정</div>
+    <h2>다가오는 회차</h2>
+
+    <div class="session-row">
+      <div class="s-main" style="opacity:.5;"><b>9 / 12 (토)</b><span>저녁 6시 · 성수</span></div>
+      <div class="s-tags" style="opacity:.5;">만 27~34세</div>
+      <div class="s-price" style="opacity:.5;">여 35,000 · 남 45,000</div>
+      <span class="btn-small disabled">모집 완료</span>
+    </div>
+    <div class="session-row">
+      <div class="s-main" style="opacity:.5;"><b>9 / 13 (일)</b><span>저녁 6시 · 성수</span></div>
+      <div class="s-tags" style="opacity:.5;">만 25~32세</div>
+      <div class="s-price" style="opacity:.5;">여 30,000 · 남 40,000</div>
+      <span class="btn-small disabled">모집 완료</span>
+    </div>
+    <div class="session-row">
+      <div class="s-main"><b>9 / 19 (토)</b><span>저녁 6시 · 성수</span></div>
+      <div class="s-tags">만 27~34세</div>
+      <div class="s-price">여 35,000 · 남 45,000</div>
+      <a class="btn-small" href="https://tally.so/r/rj41WL">신청하기</a>
+    </div>
+    <div class="session-row">
+      <div class="s-main"><b>9 / 20 (일)</b><span>저녁 6시 · 성수</span></div>
+      <div class="s-tags">만 25~32세</div>
+      <div class="s-price">여 30,000 · 남 40,000</div>
+      <a class="btn-small" href="https://tally.so/r/rj41WL">신청하기</a>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="eyebrow">참가비</div>
+    <h2>가격 안내</h2>
+    <table class="price-table">
+      <tr><th></th><th>여성</th><th>남성</th></tr>
+      <tr><td>일반</td><td><b>₩35,000</b></td><td><b>₩45,000</b></td></tr>
+    </table>
+    <p class="price-note">음료 1잔 포함 · 선정 확정 후 계좌 안내 · 회차별 가격이 다를 수 있어요</p>
+
+    <h2 style="margin-top:32px;">환불 규정</h2>
+    <table class="refund-table">
+      <tr><th>10일 전</th><th>7~9일 전</th><th>5~6일 전</th><th>4일 전~당일</th></tr>
+      <tr><td>100%</td><td>70%</td><td>50%</td><td>환불 불가</td></tr>
+    </table>
+    <p class="price-note">무단 불참(노쇼) 시 환불되지 않으며 이후 참여가 제한될 수 있어요.</p>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="wrap">
+    <div class="eyebrow">FAQ</div>
+    <h2>자주 묻는 질문</h2>
+
+    <div class="faq-group">참가 조건</div>
+    <details>
+      <summary>참가 조건이 있나요?</summary>
+      <p>회차별로 연령대, 직장인 여부 등 모집 대상이 다를 수 있어요. 각 회차의 모집 조건을 확인 후 신청해주세요. 선정 후 명함이나 사원증 등으로 간단한 신원 확인을 진행해요.</p>
+    </details>
+    <details>
+      <summary>혼자 가도 되나요?</summary>
+      <p>네, 대부분 혼자 참여하세요. 현장에서 호스트가 안내해드리니 걱정하지 않으셔도 돼요.</p>
+    </details>
+    <details>
+      <summary>복장은 어떻게 입으면 될까요?</summary>
+      <p>특별한 드레스코드는 없지만, 깔끔하고 단정한 복장을 부탁드려요. 첫인상이 중요한 자리인 만큼 조금만 신경 써주시면 돼요.</p>
+    </details>
+
+    <div class="faq-group">진행 방식</div>
+    <details>
+      <summary>대화가 어색하면 어떻게 하나요?</summary>
+      <p>10분은 생각보다 짧아서, 어색해질 즈음이면 다음 라운드로 넘어가요. 호스트가 가벼운 대화 주제도 안내해드리니 준비 없이 오셔도 괜찮아요.</p>
+    </details>
+    <details>
+      <summary>매칭은 어떻게 되나요?</summary>
+      <p>모든 라운드가 끝나면 마음에 든 상대를 표시해요. 서로 표시한 경우에만 연락처를 전달해드려요. 상대가 나를 표시했는지, 내가 표시했는지는 상대방에게 알려지지 않아요.</p>
+    </details>
+    <details>
+      <summary>아무도 매칭되지 않으면 어떻게 되나요?</summary>
+      <p>괜찮아요. 매칭은 서로 표시가 겹칠 때만 성사되고, 그렇지 않아도 별도 안내는 가지 않아요. 다음 회차에 다시 참여하실 수 있어요.</p>
+    </details>
+
+    <div class="faq-group">결제 · 취소</div>
+    <details>
+      <summary>결제는 언제 하나요?</summary>
+      <p>신청 시에는 결제하지 않아요. 선정 및 참가 확정 후 계좌번호와 함께 개별 안내드려요.</p>
+    </details>
+    <details>
+      <summary>신청 후 취소할 수 있나요?</summary>
+      <p>모임일 기준 10일 전까지 100%, 7~9일 전 70%, 5~6일 전 50% 환불이며, 4일 전부터는 환불이 어려워요. 입금 전 취소는 자유롭게 가능해요.</p>
+    </details>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="f-brand">FINDY</div>
+    <div class="f-legal">
+      <b>상호명</b> (예시) ○○○ · <b>대표</b> ○○○ · <b>사업자등록번호</b> 000-00-00000<br>
+      <b>통신판매업신고</b> 0000-서울○○-0000호 · <b>결혼중개업신고</b> 서울-○○-국내 00-0000<br>
+      <b>주소</b> 서울특별시 ○○구 ○○로 00, 000호<br>
+      <b>문의</b> findy@example.com · 카카오톡 채널 @findy<br><br>
+      ⚠️ 위 사업자정보는 예시입니다. 실제 오픈 전에 사업자등록, 통신판매업신고, 결혼중개업신고(관할 지자체)를 완료하고 실제 정보로 교체해야 해요.
+    </div>
+    <div class="f-links">
+      <a href="#">이용약관</a>
+      <a href="#">개인정보처리방침</a>
+      <a href="https://www.instagram.com/finallyfoundlover/">Instagram</a>
+      <a href="https://linktr.ee/finallyfoundlover">Linktree</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
