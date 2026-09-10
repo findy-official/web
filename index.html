@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>FINDY — 1:1 로테이션 소개팅</title>
+<link rel="icon" type="image/jpeg" href="findy-logo.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -18,7 +19,8 @@
 
   nav{border-bottom:1px solid var(--line);position:sticky;top:0;z-index:50;background:rgba(245,237,224,.95);backdrop-filter:blur(6px);}
   nav .wrap{display:flex;align-items:center;justify-content:space-between;height:72px;}
-  .logo{font-size:18px;font-weight:700;color:var(--ink);text-decoration:none;letter-spacing:.02em;flex:0 0 auto;}
+  .logo{font-size:18px;font-weight:700;color:var(--ink);text-decoration:none;letter-spacing:.02em;flex:0 0 auto;display:flex;align-items:center;gap:8px;}
+  .logo img{height:30px;width:30px;border-radius:8px;display:block;}
   .nav-links{display:flex;gap:20px;align-items:center;}
   .nav-links a{font-size:13.5px;font-weight:600;color:var(--muted);text-decoration:none;white-space:nowrap;}
   .nav-links a:hover{color:var(--ink);}
@@ -86,7 +88,8 @@
   .faq-group{font-size:12px;font-weight:700;color:var(--accent);margin:24px 0 4px;text-transform:uppercase;}
 
   footer{padding:36px 0 44px;}
-  .f-brand{font-size:15px;font-weight:700;margin-bottom:12px;}
+  .f-brand{font-size:15px;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:8px;}
+  .f-brand img{height:24px;width:24px;border-radius:6px;display:block;}
   .f-legal{font-size:11.5px;color:var(--muted);line-height:2;}
   .f-legal b{color:var(--ink);}
   .f-links{display:flex;gap:16px;margin-top:14px;font-size:12.5px;}
@@ -138,6 +141,13 @@
     .f-links{flex-wrap:wrap;gap:10px 16px;}
   }
 
+  .kakao-float{position:fixed;right:20px;bottom:20px;z-index:60;display:flex;align-items:center;gap:8px;background:#FEE500;color:#191919;text-decoration:none;font-weight:700;font-size:14px;padding:12px 18px;border-radius:999px;box-shadow:0 4px 14px rgba(0,0,0,.18);font-family:inherit;}
+  .kakao-float svg{width:20px;height:20px;flex:0 0 auto;}
+
+  @media(max-width:600px){
+    .kakao-float{right:14px;bottom:14px;padding:11px 16px;font-size:13px;}
+  }
+
   @media(max-width:380px){
     h1{font-size:21px;}
     .round-cell{flex:0 0 100%;}
@@ -148,7 +158,7 @@
 
 <nav>
   <div class="wrap">
-    <a class="logo" href="#">FINDY</a>
+    <a class="logo" href="#"><img src="findy-logo.jpg" alt="FINDY 로고">FINDY</a>
     <div class="nav-links">
       <a href="#how">진행 방식</a>
       <a href="#sessions">일정</a>
@@ -324,7 +334,7 @@
 
 <footer>
   <div class="wrap">
-    <div class="f-brand">FINDY</div>
+    <div class="f-brand"><img src="findy-logo.jpg" alt="FINDY 로고">FINDY</div>
     <div class="f-legal">
       <b>상호명</b> (예시) ○○○ · <b>대표</b> ○○○ · <b>사업자등록번호</b> 000-00-00000<br>
       <b>통신판매업신고</b> 0000-서울○○-0000호 · <b>결혼중개업신고</b> 서울-○○-국내 00-0000<br>
@@ -339,6 +349,10 @@
     </div>
   </div>
 </footer>
+<a class="kakao-float" href="#" target="_blank" rel="noopener">
+  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="#191919" d="M12 3C6.48 3 2 6.58 2 11c0 2.86 1.87 5.37 4.68 6.79-.15.55-.96 3.49-.99 3.72 0 0-.02.16.09.22a.3.3 0 0 0 .24 0c.32-.05 3.68-2.42 4.26-2.83.55.08 1.12.12 1.72.12 5.52 0 10-3.58 10-8s-4.48-8-10-8z"/></svg>
+  카카오톡 문의하기
+</a>
 
 </body>
 </html>
