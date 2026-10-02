@@ -72,12 +72,12 @@
   .story-media{position:relative;aspect-ratio:1/1;max-height:calc(100vh - var(--nav-h) - 48px);border-radius:24px;overflow:hidden;background:var(--panel);}
   .story-media img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .6s ease;}
   .story-media img.active{opacity:1;}
-  .story-step{min-height:62vh;display:flex;flex-direction:column;justify-content:center;}
-  .story-caption{display:none;}
-  .s-num{font-size:12.5px;font-weight:600;color:var(--muted);margin-bottom:8px;font-variant-numeric:tabular-nums;}
-  .story-step.active .s-num,.cap .s-num{color:var(--accent);}
-  .story-step h3,.cap h3{margin:0 0 8px;font-size:22px;line-height:1.4;font-weight:600;letter-spacing:-.02em;text-wrap:balance;}
-  .story-step p,.cap p{margin:0;font-size:15px;color:var(--muted);max-width:360px;}
+  .story-step{min-height:46vh;display:flex;flex-direction:column;justify-content:center;}
+  .step-img{display:none;}
+  .story-step .s-num{font-size:12.5px;font-weight:600;color:var(--muted);margin-bottom:8px;font-variant-numeric:tabular-nums;}
+  .story-step.active .s-num{color:var(--accent);}
+  .story-step h3{margin:0 0 8px;font-size:22px;line-height:1.4;font-weight:600;letter-spacing:-.02em;text-wrap:balance;}
+  .story-step p{margin:0;font-size:15px;color:var(--muted);max-width:360px;}
 
   .panel{background:var(--panel);border-radius:14px;padding:6px;}
   .rows{margin:0;background:var(--surface);border-radius:10px;}
@@ -166,14 +166,14 @@
   @media(max-width:760px){
     .story .wrap{grid-template-columns:1fr;}
     .story-head{margin-bottom:10px;}
-    .story-pin{top:var(--nav-h);z-index:2;background:var(--bg);padding:12px 0 10px;}
-    .story-media{aspect-ratio:16/9;max-height:34vh;border-radius:18px;}
-    .story-caption{display:grid;margin-top:16px;}
-    .cap{grid-area:1 / 1;opacity:0;transition:opacity .4s ease;}
-    .cap.active{opacity:1;}
-    .story-step{min-height:55vh;opacity:0;pointer-events:none;}
-    .cap h3{font-size:19px;}
-    .cap p{font-size:14px;max-width:none;}
+    .story-pin{display:none;}
+    .story-step{min-height:0;display:block;padding:10px 0 28px;}
+    .step-img{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;border-radius:18px;margin-bottom:16px;background:var(--panel);}
+    .story-step .s-num{color:var(--accent);}
+    .story-step h3{font-size:19px;}
+    .story-step p{font-size:14px;max-width:none;}
+    .reveal .story-step{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease;}
+    .reveal .story-step.in{opacity:1;transform:none;}
   }
 
   @media(max-width:600px){
@@ -219,7 +219,7 @@
 
   @media(prefers-reduced-motion:reduce){
     html{scroll-behavior:auto;}
-    .story-media img,.cap,.nav-links a,.nav-cta,.btn-primary,.btn-secondary,.seg button,.cal-day,summary::after{transition:none;}
+    .story-media img,.nav-links a,.nav-cta,.btn-primary,.btn-secondary,.seg button,.cal-day,summary::after{transition:none;}
   }
 </style>
 </head>
@@ -266,13 +266,12 @@
         <img src="media/story-3.jpg" width="1200" height="1200" loading="lazy" decoding="async" alt="나란히 놓인 2인용 테이블 옆으로 다음 자리를 향해 걸어가는 사람의 뒷모습">
         <img src="media/story-4.jpg" width="1200" height="1200" loading="lazy" decoding="async" alt="찻잔과 명찰이 놓인 테이블 위에서 휴대폰을 들고 있는 손">
       </div>
-      <div class="story-caption" id="storyCaption" aria-hidden="true"></div>
     </div>
     <div class="story-steps" id="storySteps">
-      <div class="story-step active"><div class="s-num">1</div><h3>도착하면 명찰을 받아요</h3><p>체크인하고 신분증으로 본인 확인을 마치면, 닉네임 명찰을 드려요.</p></div>
-      <div class="story-step"><div class="s-num">2</div><h3>한 사람과 마주 앉아요</h3><p>한 번에 한 사람과만 대화해요. 시간은 호스트가 타이머로 관리해요.</p></div>
-      <div class="story-step"><div class="s-num">3</div><h3>다음 자리로 옮겨요</h3><p>자리가 돌아가니 어색할 틈이 없어요. 호스트 안내에 따라 다음 사람을 만나요.</p></div>
-      <div class="story-step"><div class="s-num">4</div><h3>마음에 들면 연락처를 나눠요</h3><p>대화 중 마음에 드는 분이 있다면, 현장에서 자유롭게 연락처를 교환할 수 있어요.</p></div>
+      <div class="story-step active"><img class="step-img" src="media/story-1.jpg" width="1200" height="1200" loading="lazy" decoding="async" alt="접수 테이블 위에 가지런히 놓인 빈 명찰과 빨간 펜"><div class="s-num">1</div><h3>도착하면 명찰을 받아요</h3><p>체크인하고 신분증으로 본인 확인을 마치면, 닉네임 명찰을 드려요.</p></div>
+      <div class="story-step"><img class="step-img" src="media/story-2.jpg" width="1200" height="1200" loading="lazy" decoding="async" alt="작은 원형 테이블에 마주 앉은 두 사람의 손, 찻잔 두 개와 모래시계"><div class="s-num">2</div><h3>한 사람과 마주 앉아요</h3><p>한 번에 한 사람과만 대화해요. 시간은 호스트가 타이머로 관리해요.</p></div>
+      <div class="story-step"><img class="step-img" src="media/story-3.jpg" width="1200" height="1200" loading="lazy" decoding="async" alt="나란히 놓인 2인용 테이블 옆으로 다음 자리를 향해 걸어가는 사람의 뒷모습"><div class="s-num">3</div><h3>다음 자리로 옮겨요</h3><p>자리가 돌아가니 어색할 틈이 없어요. 호스트 안내에 따라 다음 사람을 만나요.</p></div>
+      <div class="story-step"><img class="step-img" src="media/story-4.jpg" width="1200" height="1200" loading="lazy" decoding="async" alt="찻잔과 명찰이 놓인 테이블 위에서 휴대폰을 들고 있는 손"><div class="s-num">4</div><h3>마음에 들면 연락처를 나눠요</h3><p>대화 중 마음에 드는 분이 있다면, 현장에서 자유롭게 연락처를 교환할 수 있어요.</p></div>
     </div>
   </div>
 </section>
@@ -281,24 +280,24 @@
 (function(){
   var steps=document.querySelectorAll('#storySteps .story-step');
   var imgs=document.querySelectorAll('#storyMedia img');
-  var cap=document.getElementById('storyCaption');
   var pin=document.getElementById('storyPin');
   if(!steps.length||!pin) return;
-  // 좁은 화면에서는 고정된 사진 아래에 지금 단계의 글을 함께 보여줌
-  steps.forEach(function(s,n){
-    var c=document.createElement('div');
-    c.className='cap'+(n===0?' active':'');
-    c.innerHTML=s.innerHTML;
-    cap.appendChild(c);
-  });
-  var caps=cap.querySelectorAll('.cap');
+  // 좁은 화면에서는 고정 없이 흘러가고, 각 단계가 화면에 들어올 때 한 번 떠오름
+  if('IntersectionObserver' in window&&!window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+    document.getElementById('storySteps').classList.add('reveal');
+    var io=new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}
+      });
+    },{rootMargin:'0px 0px -12% 0px'});
+    steps.forEach(function(s){io.observe(s);});
+  }
   var narrow=window.matchMedia('(max-width:760px)');
   var cur=0, line=0, ticking=false;
   function show(i){
     cur=i;
     steps.forEach(function(s,n){s.classList.toggle('active',n===i);});
     imgs.forEach(function(m,n){m.classList.toggle('active',n===i);});
-    caps.forEach(function(c,n){c.classList.toggle('active',n===i);});
   }
   // 전환 기준선: 넓은 화면은 고정된 그림의 세로 가운데, 좁은 화면은 그림 아래 남는 영역의 가운데
   function measure(){
