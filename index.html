@@ -3,282 +3,378 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FINDY — 1:1 로테이션 미팅</title>
+<title>FINDY — 1:1 대화 모임</title>
+<meta name="theme-color" content="#FAFAF9">
 <link rel="icon" type="image/jpeg" href="findy-logo.jpg">
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@500&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg:#F5EDE0; --ink:#1A1A1A; --muted:#6B6460; --line:#E2D9CC;
-    --accent:#C42B2B; --accent-soft:#F5E0E0;
+    --bg:#FAFAF9; --panel:#F2F2F0; --surface:#FFFFFF; --ink:#1A1917; --muted:#6B6460; --faint:#8F8D89;
+    --line:#E6E5E1; --chip:#E9E8E4; --accent:#C42B2B; --accent-dark:#A92323; --accent-soft:#F8E6E5; --ok:#2E7D4F;
+    --sans:'Pretendard Variable',Pretendard,-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Malgun Gothic',sans-serif;
+    --serif:'Noto Serif KR',AppleMyungjo,'Nanum Myeongjo',serif;
+    --nav-h:64px;
   }
   *{box-sizing:border-box;}
-  html{scroll-behavior:smooth;}
-  body{margin:0;background:var(--bg);color:var(--ink);font-family:'IBM Plex Sans KR',sans-serif;line-height:1.7;-webkit-font-smoothing:antialiased;}
-  .wrap{max-width:720px;margin:0 auto;padding:0 28px;}
+  html{scroll-behavior:smooth;scroll-padding-top:calc(var(--nav-h) + 8px);-webkit-text-size-adjust:100%;}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:14px;line-height:1.7;-webkit-font-smoothing:antialiased;word-break:keep-all;overflow-wrap:break-word;}
+  a{color:inherit;}
+  a,button{touch-action:manipulation;}
+  :focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
+  .skip{position:absolute;left:12px;top:-48px;z-index:100;background:var(--ink);color:#fff;font-size:13px;font-weight:500;text-decoration:none;padding:8px 14px;border-radius:999px;}
+  .skip:focus{top:10px;}
+  .wrap{max-width:680px;margin:0 auto;padding:0 28px;}
+  .wrap-wide{max-width:960px;}
 
-  nav{border-bottom:1px solid var(--line);position:sticky;top:0;z-index:50;background:rgba(245,237,224,.95);backdrop-filter:blur(6px);}
-  nav .wrap{display:flex;align-items:center;justify-content:space-between;height:72px;}
-  .logo{font-size:18px;font-weight:700;color:var(--ink);text-decoration:none;letter-spacing:.02em;flex:0 0 auto;display:flex;align-items:center;gap:8px;}
-  .logo img{height:30px;width:30px;border-radius:8px;display:block;}
-  .nav-links{display:flex;gap:20px;align-items:center;}
-  .nav-links a{font-size:13.5px;font-weight:600;color:var(--muted);text-decoration:none;white-space:nowrap;}
-  .nav-links a:hover{color:var(--ink);}
-  .nav-cta{font-size:13.5px;font-weight:600;color:var(--accent)!important;background:var(--accent-soft);padding:8px 14px;border-radius:6px;}
+  nav{position:sticky;top:0;z-index:50;background:rgba(250,250,249,.88);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);}
+  .nav-in{max-width:1120px;margin:0 auto;padding:0 28px;height:var(--nav-h);display:grid;grid-template-columns:1fr auto 1fr;align-items:center;}
+  .logo{justify-self:start;font-size:17px;font-weight:700;color:var(--ink);text-decoration:none;letter-spacing:.02em;display:flex;align-items:center;gap:8px;}
+  .logo img{height:28px;width:28px;border-radius:8px;display:block;}
+  .nav-links{display:flex;gap:2px;align-items:center;}
+  .nav-links a{font-size:13.5px;font-weight:500;color:var(--muted);text-decoration:none;white-space:nowrap;padding:6px 12px;border-radius:999px;transition:color .15s,background-color .15s;}
+  .nav-links a:hover{color:var(--ink);background:rgba(26,25,23,.05);}
+  .nav-cta{justify-self:end;font-size:13px;font-weight:600;color:#fff;background:var(--accent);text-decoration:none;white-space:nowrap;padding:8px 16px;border-radius:999px;transition:background-color .15s;}
+  .nav-cta:hover{background:var(--accent-dark);}
 
-  section{padding:64px 0;border-bottom:1px solid var(--line);}
-  section:last-of-type{border-bottom:none;}
-  .eyebrow{color:var(--accent);font-size:13.5px;font-weight:600;margin-bottom:14px;}
-  h2{font-size:22px;font-weight:700;margin:0 0 10px;letter-spacing:-.01em;}
+  section{padding:44px 0;}
+  .sec-head{margin-bottom:18px;}
+  .eyebrow{font-size:12.5px;font-weight:500;color:var(--muted);margin-bottom:4px;}
+  h2{font-size:20px;line-height:1.4;font-weight:600;margin:0;letter-spacing:-.015em;text-wrap:balance;}
+  .sec-sub{font-size:13.5px;color:var(--muted);margin:4px 0 0;}
+  .sub-head{margin-top:36px;}
+  .note{font-size:12.5px;color:var(--muted);margin:10px 2px 0;}
 
-  .hero{padding:80px 0 56px;}
-  h1{font-size:34px;line-height:1.5;font-weight:700;margin:0 0 18px;letter-spacing:-.015em;max-width:500px;}
-  .hero .sub{font-size:16px;color:var(--muted);max-width:440px;margin:0 0 28px;}
-  .btn-primary{background:var(--accent);color:#fff;border:none;border-radius:8px;padding:14px 24px;font-size:14.5px;font-weight:600;cursor:pointer;font-family:inherit;}
-  .btn-text{background:none;border:none;color:var(--ink);font-size:14.5px;font-weight:600;cursor:pointer;font-family:inherit;text-decoration:underline;text-underline-offset:3px;margin-left:18px;}
+  .hero{padding:92px 0 64px;text-align:center;}
+  .badge{display:inline-flex;align-items:center;gap:7px;background:var(--surface);border-radius:999px;padding:5px 12px 5px 10px;font-size:12px;font-weight:500;color:var(--muted);box-shadow:0 0 0 1px var(--line),0 1px 2px rgba(26,25,23,.05);margin-bottom:22px;}
+  .badge::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--accent);}
+  h1{font-family:var(--serif);font-size:40px;line-height:1.35;font-weight:500;margin:0 0 16px;letter-spacing:-.025em;}
+  .tone{display:block;color:var(--faint);}
+  .hero .sub{font-size:15px;color:var(--muted);max-width:420px;margin:0 auto 30px;}
+  .cta-row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;}
+  .btn-primary,.btn-secondary{display:inline-flex;align-items:center;justify-content:center;height:48px;padding:0 26px;border:none;border-radius:999px;font-size:14.5px;font-weight:600;font-family:inherit;text-decoration:none;cursor:pointer;transition:background-color .15s;}
+  .btn-primary{background:var(--accent);color:#fff;}
+  .btn-primary:hover{background:var(--accent-dark);}
+  .btn-primary.disabled{background:var(--chip);color:var(--muted);cursor:default;pointer-events:none;}
+  .btn-secondary{background:rgba(26,25,23,.06);color:var(--ink);}
+  .btn-secondary:hover{background:rgba(26,25,23,.1);}
 
-  .position-row{display:flex;gap:24px;margin-top:32px;padding-top:24px;border-top:1px solid var(--line);flex-wrap:wrap;}
-  .position-item{flex:1;min-width:160px;}
-  .position-item h3{font-size:13px;color:var(--muted);font-weight:600;margin:0 0 6px;}
-  .position-item p{font-size:14.5px;margin:0;font-weight:500;}
+  .story{padding:56px 0 24px;}
+  .story .wrap{display:grid;grid-template-columns:1fr 1fr;column-gap:64px;align-items:start;}
+  .story-head{grid-column:1 / -1;text-align:center;margin-bottom:36px;}
+  .statement{font-family:var(--serif);font-size:28px;line-height:1.4;font-weight:500;letter-spacing:-.02em;}
+  .story-pin{position:sticky;top:max(calc(var(--nav-h) + 24px),calc(50vh + var(--nav-h) / 2 - 210px));}
+  .story-media{position:relative;aspect-ratio:1/1;max-height:calc(100vh - var(--nav-h) - 48px);border-radius:24px;overflow:hidden;background:var(--panel);}
+  .story-media img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .6s ease;}
+  .story-media img.active{opacity:1;}
+  .story-count{position:absolute;left:14px;bottom:14px;z-index:1;background:rgba(255,255,255,.92);color:var(--ink);font-size:12px;font-weight:600;padding:3px 11px;border-radius:999px;font-variant-numeric:tabular-nums;}
+  .story-step{min-height:62vh;display:flex;flex-direction:column;justify-content:center;}
+  .story-step .s-num{font-size:12.5px;font-weight:600;color:var(--muted);margin-bottom:8px;font-variant-numeric:tabular-nums;}
+  .story-step.active .s-num{color:var(--accent);}
+  .story-step h3{margin:0 0 8px;font-size:22px;line-height:1.4;font-weight:600;letter-spacing:-.02em;text-wrap:balance;}
+  .story-step p{margin:0;font-size:15px;color:var(--muted);max-width:360px;}
 
-  .round-strip{display:flex;border-top:1px solid var(--line);border-bottom:1px solid var(--line);}
-  .round-cell{flex:1;text-align:center;padding:20px 8px;border-right:1px solid var(--line);}
-  .round-cell:last-child{border-right:none;}
-  .round-cell b{display:block;font-size:16px;margin-bottom:3px;}
-  .round-cell span{font-size:11.5px;color:var(--muted);}
+  .panel{background:var(--panel);border-radius:14px;padding:6px;}
+  .rows{margin:0;background:var(--surface);border-radius:10px;}
+  .row{display:grid;grid-template-columns:150px 1fr;gap:16px;padding:13px 16px;border-top:1px solid var(--line);}
+  .row:first-child{border-top:none;}
+  .row dt{font-size:13px;font-weight:500;color:var(--muted);}
+  .row dd{margin:0;font-size:13.5px;font-variant-numeric:tabular-nums;}
 
-  .flow-list{counter-reset:flow;max-width:520px;}
-  .flow-item{display:flex;gap:16px;padding:18px 0;border-bottom:1px solid var(--line);}
-  .flow-item:last-child{border-bottom:none;}
-  .flow-item::before{counter-increment:flow;content:counter(flow);font-size:13px;font-weight:700;color:var(--accent);width:20px;flex:0 0 auto;}
-  .flow-item h4{margin:0 0 3px;font-size:14.5px;font-weight:700;}
-  .flow-item p{margin:0;font-size:13.5px;color:var(--muted);}
+  .flow{list-style:none;margin:0;padding:6px;background:var(--panel);border-radius:14px;counter-reset:flow;display:grid;gap:4px;}
+  .flow li{counter-increment:flow;display:grid;grid-template-columns:22px 1fr;column-gap:14px;padding:14px 16px;background:var(--surface);border-radius:10px;}
+  .flow li::before{content:counter(flow);width:22px;height:22px;border-radius:50%;background:var(--panel);color:var(--muted);font-size:12px;font-weight:600;display:flex;align-items:center;justify-content:center;margin-top:1px;}
+  .flow h3{margin:0 0 2px;font-size:14.5px;font-weight:600;}
+  .flow p{margin:0;font-size:13.5px;color:var(--muted);}
 
-  .trust-list{display:flex;flex-direction:column;gap:20px;}
-  .trust-item{display:flex;gap:16px;align-items:baseline;}
-  .trust-item .t-label{font-size:14px;font-weight:700;width:140px;flex:0 0 auto;}
-  .trust-item .t-desc{font-size:14px;color:var(--muted);}
+  .cards{display:grid;grid-template-columns:1fr 1fr;gap:6px;}
+  .card{background:var(--panel);border-radius:14px;padding:18px 20px;}
+  .card h3{margin:0 0 4px;font-size:14.5px;font-weight:600;}
+  .card p{margin:0;font-size:13.5px;color:var(--muted);}
+  .p-label{font-size:12.5px;font-weight:500;color:var(--muted);}
+  .p-value{font-size:22px;line-height:1.5;font-weight:600;letter-spacing:-.01em;font-variant-numeric:tabular-nums;}
 
-  .btn-small{background:none;border:1px solid var(--accent);border-radius:8px;padding:8px 16px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;text-decoration:none;color:var(--accent);display:inline-block;}
-  .btn-small.disabled{border-color:var(--line);color:var(--muted);cursor:default;}
+  .seg{display:flex;width:fit-content;gap:2px;background:var(--panel);border-radius:10px;padding:4px;margin-bottom:10px;}
+  .seg button{background:none;border:none;border-radius:8px;padding:5px 14px;font-size:13px;font-weight:500;color:var(--muted);cursor:pointer;font-family:inherit;transition:color .15s;}
+  .seg button:hover{color:var(--ink);}
+  .seg button.active{background:var(--surface);color:var(--ink);box-shadow:0 1px 2px rgba(26,25,23,.08);}
 
-  .month-tabs{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap;}
-  .month-tab{background:none;border:1px solid var(--line);border-radius:999px;padding:8px 18px;font-size:13.5px;font-weight:600;color:var(--muted);cursor:pointer;font-family:inherit;}
-  .month-tab.active{background:var(--accent);border-color:var(--accent);color:#fff;}
-
-  .calendar{border:1px solid var(--line);border-radius:14px;padding:18px;background:#FFFBF3;}
-  .cal-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
-  .cal-header b{font-size:15px;}
-  .cal-legend{font-size:11.5px;color:var(--muted);display:flex;align-items:center;gap:6px;}
-  .cal-legend .dot{width:6px;height:6px;border-radius:50%;background:var(--accent);display:inline-block;}
+  .calendar{background:var(--panel);border-radius:14px;padding:6px;}
+  .cal-header{display:flex;align-items:center;justify-content:space-between;padding:9px 12px 11px;}
+  .cal-header b{font-size:14px;font-weight:600;font-variant-numeric:tabular-nums;}
+  .cal-legend{font-size:12px;color:var(--muted);display:flex;align-items:center;gap:12px;}
+  .cal-legend span{display:inline-flex;align-items:center;gap:6px;}
+  .swatch{width:10px;height:10px;border-radius:3px;background:var(--accent-soft);box-shadow:inset 0 0 0 1px rgba(196,43,43,.3);}
+  .swatch.closed{background:var(--chip);box-shadow:inset 0 0 0 1px rgba(26,25,23,.12);}
+  .cal-body{background:var(--surface);border-radius:10px;padding:12px;}
   .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;text-align:center;}
-  .cal-dow{font-size:11.5px;color:var(--muted);font-weight:600;padding:6px 0 10px;}
-  .cal-day{position:relative;aspect-ratio:1/1;display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:9px;font-size:13px;color:var(--ink);gap:3px;}
+  .cal-dow{font-size:11.5px;color:var(--muted);font-weight:500;padding:2px 0 8px;}
+  .cal-day{position:relative;aspect-ratio:4/3;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;border:0;padding:0;border-radius:10px;background:none;font-family:inherit;font-size:13px;color:var(--ink);font-variant-numeric:tabular-nums;transition:background-color .15s,color .15s;}
   .cal-day.empty{visibility:hidden;}
-  .cal-day.has-session{cursor:pointer;font-weight:700;background:var(--accent-soft);color:var(--accent);}
-  .cal-day.has-session:hover{background:var(--accent);color:#fff;}
-  .cal-day.is-closed{background:var(--line);color:var(--muted);}
-  .cal-day.is-closed:hover{background:var(--muted);color:#fff;}
-  .cal-day.selected{background:var(--accent);color:#fff;}
+  .cal-day.has-session{cursor:pointer;font-weight:600;background:var(--accent-soft);color:var(--accent);}
+  .cal-day.has-session:hover,.cal-day.has-session.selected{background:var(--accent);color:#fff;}
+  .cal-day.is-closed{background:var(--chip);color:var(--muted);}
+  .cal-day.is-closed:hover,.cal-day.is-closed.selected{background:var(--muted);color:#fff;}
   .cal-day .dot{width:4px;height:4px;border-radius:50%;background:currentColor;}
 
-  .session-detail{margin-top:28px;}
-  .cal-placeholder{color:var(--muted);font-size:14px;text-align:center;padding:32px 0;border:1px dashed var(--line);border-radius:12px;}
-
-  .detail-subtabs{display:flex;gap:8px;margin-bottom:16px;}
-  .subtab{background:none;border:1px solid var(--line);border-radius:8px;padding:7px 14px;font-size:13px;font-weight:600;color:var(--muted);cursor:pointer;font-family:inherit;}
-  .subtab.active{border-color:var(--accent);color:var(--accent);background:var(--accent-soft);}
-
-  .detail-card{border:1px solid var(--line);border-radius:14px;padding:22px;background:#FFFBF3;}
-  .detail-head{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:12px;margin-bottom:18px;padding-bottom:18px;border-bottom:1px solid var(--line);}
-  .detail-head b{font-size:17px;display:block;margin-bottom:4px;}
+  .session-detail{margin-top:10px;}
+  .cal-placeholder{margin:0;color:var(--muted);font-size:13.5px;text-align:center;padding:26px 16px;background:var(--panel);border-radius:14px;}
+  .detail-card{background:var(--panel);border-radius:14px;padding:6px;}
+  .detail-head{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;padding:12px 12px 14px;}
+  .detail-head b{font-size:16px;line-height:1.4;font-weight:600;display:block;font-variant-numeric:tabular-nums;}
   .detail-head span{font-size:13px;color:var(--muted);}
-  .detail-tags{font-size:12.5px;color:var(--accent);font-weight:600;background:var(--accent-soft);padding:6px 12px;border-radius:6px;white-space:nowrap;}
-  .detail-tags.closed-tag{color:var(--muted);background:var(--line);}
-  .btn-small.disabled{border-color:var(--line);color:var(--muted);cursor:default;pointer-events:none;}
+  .detail-tags{font-size:12px;font-weight:500;color:var(--accent);background:var(--accent-soft);padding:5px 12px;border-radius:999px;white-space:nowrap;}
+  .detail-tags.closed-tag{color:var(--muted);background:var(--chip);}
+  .detail-status{background:var(--surface);border-radius:10px;text-align:center;padding:30px 0;font-size:14.5px;font-weight:600;color:var(--accent);}
+  .detail-status.closed{color:var(--muted);}
+  .attendee-grid{display:grid;grid-template-columns:1fr 1fr;gap:4px;}
+  .attendee-col{background:var(--surface);border-radius:10px;padding:14px 16px 8px;}
+  .attendee-col h3{font-size:12.5px;color:var(--muted);font-weight:500;margin:0 0 6px;}
+  .attendee-row{display:flex;align-items:center;gap:8px;padding:7px 0;border-top:1px solid var(--line);font-size:13px;}
+  .attendee-no{width:18px;flex:0 0 auto;color:var(--muted);font-size:11.5px;font-variant-numeric:tabular-nums;}
+  .attendee-info{flex:1;min-width:0;}
+  .attendee-open{color:var(--ok);font-weight:600;}
+  .detail-foot{display:flex;justify-content:flex-end;padding:10px 4px 4px;}
+  .detail-foot .btn-primary{height:42px;padding:0 22px;font-size:13.5px;}
 
-  .attendee-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:20px;}
-  .attendee-col h5{font-size:12px;color:var(--muted);font-weight:700;margin:0 0 10px;text-transform:uppercase;letter-spacing:.04em;}
-  .attendee-row{display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px dashed var(--line);font-size:13px;}
-  .attendee-row:last-child{border-bottom:none;}
-  .attendee-no{width:16px;flex:0 0 auto;color:var(--muted);font-size:11px;}
-  .attendee-info{flex:1;}
-  .attendee-open{color:#3a9a5c;font-weight:700;}
-
-  .price-table{width:100%;border-collapse:collapse;font-size:13.5px;margin-bottom:14px;}
-  .price-table th,.price-table td{border:1px solid var(--line);padding:12px;text-align:center;}
-  .price-table th{font-weight:600;color:var(--muted);font-size:12px;}
-  .price-table td b{font-size:15px;}
-  .price-note{font-size:12.5px;color:var(--muted);margin:0 0 8px;}
-
-  .refund-table{width:100%;border-collapse:collapse;font-size:12px;margin:16px 0;}
-  .refund-table th,.refund-table td{border:1px solid var(--line);padding:9px;text-align:center;}
-  .refund-table th{font-weight:600;color:var(--muted);}
-
-  details{border-bottom:1px solid var(--line);padding:16px 0;}
-  summary{cursor:pointer;font-weight:600;font-size:14.5px;list-style:none;display:flex;justify-content:space-between;}
+  .faq-group{font-size:12.5px;font-weight:500;color:var(--muted);margin:22px 2px 8px;}
+  details{background:var(--panel);border-radius:12px;margin-bottom:4px;}
+  summary{cursor:pointer;font-weight:500;font-size:14.5px;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px 18px;border-radius:12px;}
   summary::-webkit-details-marker{display:none;}
-  summary::after{content:'+';color:var(--accent);font-size:18px;}
-  details[open] summary::after{content:'–';}
-  details p{margin:10px 0 0;color:var(--muted);font-size:13.5px;}
-  .faq-group{font-size:12px;font-weight:700;color:var(--accent);margin:24px 0 4px;text-transform:uppercase;}
+  summary::after{content:'';flex:0 0 auto;width:7px;height:7px;margin:0 3px 3px 0;border-right:1.5px solid var(--muted);border-bottom:1.5px solid var(--muted);transform:rotate(45deg);transition:transform .15s;}
+  summary:hover::after{border-color:var(--ink);}
+  details[open] summary::after{transform:rotate(-135deg);margin:3px 3px 0 0;}
+  details p{margin:0;padding:0 18px 16px;color:var(--muted);font-size:13.5px;}
 
-  footer{padding:36px 0 44px;}
-  .f-brand{font-size:15px;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:8px;}
-  .f-brand img{height:24px;width:24px;border-radius:6px;display:block;}
+  footer{padding:52px 0 96px;text-align:center;}
+  .f-brand{font-size:14px;font-weight:600;margin-bottom:12px;display:inline-flex;align-items:center;gap:8px;}
+  .f-brand img{height:22px;width:22px;border-radius:6px;display:block;}
   .f-legal{font-size:11.5px;color:var(--muted);line-height:2;}
   .f-legal b{color:var(--ink);}
-  .f-links{display:flex;gap:16px;margin-top:14px;font-size:12.5px;}
-  .f-links a{color:var(--muted);text-decoration:underline;text-underline-offset:3px;}
-
-  @media(max-width:720px){
-    .wrap{padding:0 20px;}
-  }
-
-  @media(max-width:600px){
-    .wrap{padding:0 18px;}
-    nav .wrap{height:60px;}
-    .logo{font-size:16px;}
-    .nav-links{gap:12px;}
-    .nav-links a{font-size:12.5px;}
-    .nav-cta{padding:7px 11px;}
-
-    section{padding:44px 0;}
-    .hero{padding:44px 0 36px;}
-    h1{font-size:24px;max-width:none;}
-    .hero .sub{font-size:14.5px;max-width:none;}
-    h2{font-size:19px;}
-
-    .btn-primary{width:100%;padding:14px 20px;}
-    .hero div > .btn-text{display:block;margin:14px 0 0;text-align:center;}
-
-    .position-row{flex-direction:column;gap:16px;margin-top:24px;padding-top:20px;}
-    .position-item{min-width:0;}
-
-    .round-strip{flex-wrap:wrap;}
-    .round-cell{flex:0 0 50%;border-bottom:1px solid var(--line);padding:16px 6px;}
-
-    .flow-item{gap:12px;}
-
-    .trust-item{flex-direction:column;gap:4px;}
-    .trust-item .t-label{width:auto;}
-
-    .session-row{flex-direction:column;align-items:flex-start;gap:10px;padding:18px 0;}
-    .btn-small{align-self:stretch;text-align:center;}
-
-    .month-tab{padding:7px 14px;font-size:12.5px;}
-    .calendar{padding:12px;}
-    .cal-day{font-size:11.5px;border-radius:7px;}
-    .cal-dow{font-size:10.5px;padding:4px 0 8px;}
-    .detail-card{padding:16px;}
-    .detail-head b{font-size:15.5px;}
-    .attendee-grid{grid-template-columns:1fr;gap:14px;}
-
-    .price-table{font-size:12px;}
-    .price-table th,.price-table td{padding:8px 4px;}
-    .refund-table{font-size:10.5px;}
-    .refund-table th,.refund-table td{padding:6px 3px;}
-
-    summary{font-size:13.5px;}
-
-    .f-legal{font-size:11px;}
-    .f-links{flex-wrap:wrap;gap:10px 16px;}
-  }
+  .f-links{display:flex;justify-content:center;flex-wrap:wrap;gap:8px 18px;font-size:12.5px;}
+  .f-links a{color:var(--muted);text-decoration:none;}
+  .f-links a:hover{color:var(--ink);text-decoration:underline;text-underline-offset:3px;}
 
   .kakao-float{position:fixed;right:20px;bottom:20px;z-index:60;display:flex;align-items:center;gap:8px;background:#FEE500;color:#191919;text-decoration:none;font-weight:700;font-size:14px;padding:12px 18px;border-radius:999px;box-shadow:0 4px 14px rgba(0,0,0,.18);font-family:inherit;}
   .kakao-float svg{width:20px;height:20px;flex:0 0 auto;}
 
+  @media(max-width:760px){
+    .story .wrap{grid-template-columns:1fr;}
+    .story-head{margin-bottom:10px;}
+    .story-pin{top:var(--nav-h);z-index:2;background:var(--bg);padding:12px 0;}
+    .story-media{aspect-ratio:3/2;max-height:42vh;border-radius:18px;}
+    .story-step{min-height:48vh;}
+    .story-step h3{font-size:19px;}
+    .story-step p{font-size:14px;max-width:none;}
+  }
+
   @media(max-width:600px){
+    :root{--nav-h:56px;}
+    .wrap{padding:0 18px;}
+    .nav-in{display:flex;justify-content:space-between;gap:6px;padding:0 14px;}
+    .logo{font-size:16px;}
+    .nav-links{gap:0;}
+    .nav-links a{font-size:12.5px;padding:6px 8px;}
+    .nav-cta{font-size:12.5px;padding:7px 12px;}
+
+    section{padding:34px 0;}
+    .hero{padding:56px 0 44px;}
+    h1{font-size:29px;}
+    .hero .sub{font-size:14.5px;}
+    .cta-row{flex-direction:column;}
+    .story{padding:40px 0 16px;}
+    .statement{font-size:23px;}
+    h2{font-size:18.5px;}
+
+    .row{grid-template-columns:92px 1fr;gap:12px;padding:12px 14px;}
+    .cards{grid-template-columns:1fr;}
+    .cards.price-cards{grid-template-columns:1fr 1fr;}
+    .card{padding:16px 18px;}
+
+    .cal-body{padding:8px;}
+    .cal-day{aspect-ratio:1/1;font-size:12.5px;border-radius:8px;}
+    .cal-dow{font-size:11px;}
+    .attendee-grid{grid-template-columns:1fr;}
+    .detail-tags{white-space:normal;border-radius:10px;}
+    .detail-foot .btn-primary{width:100%;}
+
+    summary{font-size:14px;padding:13px 16px;}
+    details p{padding:0 16px 14px;}
+
     .kakao-float{right:14px;bottom:14px;padding:11px 16px;font-size:13px;}
   }
 
   @media(max-width:380px){
-    h1{font-size:21px;}
-    .round-cell{flex:0 0 100%;}
+    h1{font-size:25px;}
+    .logo span{display:none;}
+  }
+
+  @media(prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto;}
+    .story-media img,.nav-links a,.nav-cta,.btn-primary,.btn-secondary,.seg button,.cal-day,summary::after{transition:none;}
   }
 </style>
 </head>
 <body>
 
+<a class="skip" href="#main">본문으로 건너뛰기</a>
+
 <nav>
-  <div class="wrap">
-    <a class="logo" href="#"><img src="findy-logo.jpg" alt="FINDY 로고">FINDY</a>
+  <div class="nav-in">
+    <a class="logo" href="#"><img src="findy-logo.jpg" alt="FINDY 로고" width="28" height="28"><span>FINDY</span></a>
     <div class="nav-links">
       <a href="#how">진행 방식</a>
       <a href="#sessions">일정</a>
       <a href="#faq">FAQ</a>
-      <a class="nav-cta" href="#sessions">신청하기</a>
     </div>
+    <a class="nav-cta" href="#sessions">신청하기</a>
   </div>
 </nav>
 
+<main id="main">
+
 <section class="hero">
   <div class="wrap">
-    <div class="eyebrow">FInally fouND You · 1:1 로테이션 미팅</div>
-    <h1>새로운 사람을 만나는<br>가장 효율적인 저녁.</h1>
-    <p class="sub">12명과 직접 마주 앉아 10분씩 대화해요. 자리가 돌아가니 어색할 틈이 없고, 마음에 드는 사람이 있다면 현장에서 자유롭게 연락처를 교환할 수 있어요.</p>
-    <div>
-      <button class="btn-primary" onclick="document.getElementById('sessions').scrollIntoView({behavior:'smooth'})">다가오는 일정 보기</button>
-      <button class="btn-text" onclick="document.getElementById('how').scrollIntoView({behavior:'smooth'})">어떻게 진행되나요?</button>
+    <div class="badge">FInally fouND You · 1:1 대화 모임</div>
+    <h1><span class="tone">새로운 사람을 만나는</span>가장 효율적인 저녁.</h1>
+    <p class="sub">여러 사람과 직접 마주 앉아 한 명씩 대화해요. 자리가 돌아가니 어색할 틈이 없고, 마음에 드는 사람이 있다면 현장에서 자유롭게 연락처를 교환할 수 있어요.</p>
+    <div class="cta-row">
+      <a class="btn-primary" href="#sessions">다가오는 일정 보기</a>
+      <a class="btn-secondary" href="#how">어떻게 진행되나요?</a>
     </div>
   </div>
 </section>
+
+<section class="story" id="story">
+  <div class="wrap wrap-wide">
+    <div class="story-head">
+      <div class="eyebrow">FINDY의 저녁</div>
+      <h2 class="statement"><span class="tone">도착부터 마지막 대화까지</span>저녁은 이렇게 흘러가요</h2>
+    </div>
+    <div class="story-pin" id="storyPin">
+      <div class="story-media" id="storyMedia">
+        <img class="active" src="media/story-1.jpg" width="1200" height="1200" alt="접수 테이블 위에 가지런히 놓인 빈 명찰과 빨간 펜">
+        <img src="media/story-2.jpg" width="1200" height="1200" loading="lazy" decoding="async" alt="작은 원형 테이블에 마주 앉은 두 사람의 손, 찻잔 두 개와 모래시계">
+        <img src="media/story-3.jpg" width="1200" height="1200" loading="lazy" decoding="async" alt="나란히 놓인 2인용 테이블 옆으로 다음 자리를 향해 걸어가는 사람의 뒷모습">
+        <img src="media/story-4.jpg" width="1200" height="1200" loading="lazy" decoding="async" alt="찻잔과 명찰이 놓인 테이블 위에서 휴대폰을 들고 있는 손">
+        <span class="story-count" id="storyCount" aria-hidden="true">1 / 4</span>
+      </div>
+    </div>
+    <div class="story-steps" id="storySteps">
+      <div class="story-step active"><div class="s-num">1</div><h3>도착하면 명찰을 받아요</h3><p>체크인하고 신분증으로 본인 확인을 마치면, 닉네임 명찰을 드려요.</p></div>
+      <div class="story-step"><div class="s-num">2</div><h3>한 사람과 마주 앉아요</h3><p>한 번에 한 사람과만 대화해요. 시간은 호스트가 타이머로 관리해요.</p></div>
+      <div class="story-step"><div class="s-num">3</div><h3>다음 자리로 옮겨요</h3><p>자리가 돌아가니 어색할 틈이 없어요. 호스트 안내에 따라 다음 사람을 만나요.</p></div>
+      <div class="story-step"><div class="s-num">4</div><h3>마음에 들면 연락처를 나눠요</h3><p>대화 중 마음에 드는 분이 있다면, 현장에서 자유롭게 연락처를 교환할 수 있어요.</p></div>
+    </div>
+  </div>
+</section>
+
+<script>
+(function(){
+  var steps=document.querySelectorAll('#storySteps .story-step');
+  var imgs=document.querySelectorAll('#storyMedia img');
+  var count=document.getElementById('storyCount');
+  var pin=document.getElementById('storyPin');
+  if(!steps.length||!pin) return;
+  var narrow=window.matchMedia('(max-width:760px)');
+  var cur=0, line=0, ticking=false;
+  function show(i){
+    cur=i;
+    steps.forEach(function(s,n){s.classList.toggle('active',n===i);});
+    imgs.forEach(function(m,n){m.classList.toggle('active',n===i);});
+    count.textContent=(i+1)+' / '+steps.length;
+  }
+  // 전환 기준선: 넓은 화면은 고정된 그림의 세로 가운데, 좁은 화면은 그림 아래 남는 영역의 가운데
+  function measure(){
+    var top=parseFloat(getComputedStyle(pin).top)||0;
+    line=narrow.matches ? (top+pin.offsetHeight+window.innerHeight)/2 : top+pin.offsetHeight/2;
+  }
+  function update(){
+    ticking=false;
+    var idx=0;
+    for(var i=0;i<steps.length;i++){
+      if(steps[i].getBoundingClientRect().top<=line) idx=i;
+    }
+    if(idx!==cur) show(idx);
+  }
+  function request(){
+    if(!ticking){ticking=true;window.requestAnimationFrame(update);}
+  }
+  window.addEventListener('scroll',request,{passive:true});
+  window.addEventListener('resize',function(){measure();request();});
+  measure();
+  update();
+})();
+</script>
 
 <section id="how">
   <div class="wrap">
-    <div class="eyebrow">진행 방식</div>
-    <h2>한 사람당 10분, 열두 라운드</h2>
-    <p style="color:var(--muted);font-size:14.5px;margin-bottom:24px;">여성 12명 · 남성 12명이 참석하고, 한 사람씩 돌아가며 1:1로 대화해요.</p>
-    <div class="round-strip">
-      <div class="round-cell"><b>10분</b><span>1:1 대화</span></div>
-      <div class="round-cell"><b>1분</b><span>자리 이동</span></div>
-      <div class="round-cell"><b>12회</b><span>라운드</span></div>
-      <div class="round-cell"><b>~2시간</b><span>총 소요</span></div>
+    <div class="sec-head">
+      <div class="eyebrow">진행 방식</div>
+      <h2>한 사람씩, 돌아가며 대화해요</h2>
+      <p class="sec-sub">여성과 남성 참가자가 한 사람씩 돌아가며 1:1로 대화해요.</p>
+    </div>
+    <div class="panel">
+      <dl class="rows">
+        <div class="row"><dt>대화</dt><dd>한 번에 한 사람과 1:1로 마주 앉아요.</dd></div>
+        <div class="row"><dt>자리 이동</dt><dd>대화가 끝나면 다음 자리로 옮겨요.</dd></div>
+        <div class="row"><dt>진행</dt><dd>호스트가 타이머로 시간을 관리해요.</dd></div>
+        <div class="row"><dt>연락처</dt><dd>마음에 드는 분과 현장에서 자유롭게 교환해요.</dd></div>
+      </dl>
     </div>
   </div>
 </section>
 
 <section>
   <div class="wrap">
-    <div class="eyebrow">어떻게 진행되나요?</div>
-    <h2>신청부터 참석까지</h2>
-    <div class="flow-list">
-      <div class="flow-item"><div><h4>신청서 제출</h4><p>아래 일정에서 원하는 회차를 선택하고 신청서를 보내요.</p></div></div>
-      <div class="flow-item"><div><h4>참가 확정 안내</h4><p>호스트가 검토 후 확정되신 분께 개별 연락드려요.</p></div></div>
-      <div class="flow-item"><div><h4>입장료 입금</h4><p>확정 안내와 함께 계좌번호를 전달드려요. 입금이 확인되면 참가가 최종 확정돼요.</p></div></div>
-      <div class="flow-item"><div><h4>당일 참석 & 로테이션</h4><p>10분 전까지 도착해서 체크인하면, 닉네임 명찰을 받고 바로 시작해요. 대화 중 마음에 드는 분이 있다면 현장에서 자유롭게 연락처를 교환할 수 있어요.</p></div></div>
+    <div class="sec-head">
+      <div class="eyebrow">어떻게 진행되나요?</div>
+      <h2>신청부터 참석까지</h2>
     </div>
+    <ol class="flow" role="list">
+      <li><div><h3>신청서 제출</h3><p>아래 일정에서 원하는 회차를 선택하고 신청서를 보내요.</p></div></li>
+      <li><div><h3>참가 확정 안내</h3><p>호스트가 검토 후 확정되신 분께 개별 연락드려요.</p></div></li>
+      <li><div><h3>입장료 입금</h3><p>확정 안내와 함께 계좌번호를 전달드려요. 입금이 확인되면 참가가 최종 확정돼요.</p></div></li>
+      <li><div><h3>당일 참석</h3><p>10분 전까지 도착해서 체크인하면, 닉네임 명찰을 받고 바로 시작해요. 대화 중 마음에 드는 분이 있다면 현장에서 자유롭게 연락처를 교환할 수 있어요.</p></div></li>
+    </ol>
   </div>
 </section>
 
 <section>
   <div class="wrap">
-    <div class="eyebrow">왜 FINDY인가요</div>
-    <h2>&nbsp;</h2>
-    <div class="trust-list" style="margin-top:-8px;">
-      <div class="trust-item"><div class="t-label">본인 확인</div><div class="t-desc">현장에서 신분증으로 본인 확인을 진행해요. 확인된 사람끼리만 참석해요.</div></div>
-      <div class="trust-item"><div class="t-label">호스트 진행</div><div class="t-desc">현장에서 호스트가 직접 타이머를 운영하고, 처음 오신 분도 편하게 적응하도록 안내해요.</div></div>
-      <div class="trust-item"><div class="t-label">자유로운 교류</div><div class="t-desc">대화 중 마음에 드는 분이 있다면, 현장에서 자유롭게 연락처를 교환할 수 있어요.</div></div>
-      <div class="trust-item"><div class="t-label">직접 운영</div><div class="t-desc">대행사 없이, 장소 섭외부터 당일 진행까지 직접 기획하고 관리해요.</div></div>
+    <div class="sec-head">
+      <h2>왜 FINDY인가요</h2>
+    </div>
+    <div class="cards">
+      <div class="card"><h3>본인 확인</h3><p>현장에서 신분증으로 본인 확인을 진행해요. 확인된 사람끼리만 참석해요.</p></div>
+      <div class="card"><h3>호스트 진행</h3><p>현장에서 호스트가 직접 타이머를 운영하고, 처음 오신 분도 편하게 적응하도록 안내해요.</p></div>
+      <div class="card"><h3>자유로운 교류</h3><p>대화 중 마음에 드는 분이 있다면, 현장에서 자유롭게 연락처를 교환할 수 있어요.</p></div>
+      <div class="card"><h3>직접 운영</h3><p>대행사 없이, 장소 섭외부터 당일 진행까지 직접 기획하고 관리해요.</p></div>
     </div>
   </div>
 </section>
 
 <section id="sessions">
   <div class="wrap">
-    <div class="eyebrow">일정</div>
-    <h2>다가오는 회차</h2>
-    <p style="color:var(--muted);font-size:14px;margin:0 0 24px;">캘린더에서 날짜를 선택하면 해당 회차의 참가자 현황을 볼 수 있어요.</p>
+    <div class="sec-head">
+      <div class="eyebrow">일정</div>
+      <h2>다가오는 회차</h2>
+      <p class="sec-sub">캘린더에서 날짜를 선택하면 해당 회차의 참가자 현황을 볼 수 있어요.</p>
+    </div>
 
-    <div class="month-tabs" id="monthTabs"></div>
+    <div class="seg" id="monthTabs"></div>
 
     <div class="calendar">
       <div class="cal-header">
         <b id="calTitle"></b>
-        <div class="cal-legend"><span class="dot"></span>회차 있는 날</div>
+        <div class="cal-legend"><span><i class="swatch" aria-hidden="true"></i>모집중</span><span><i class="swatch closed" aria-hidden="true"></i>마감</span></div>
       </div>
-      <div class="cal-grid" id="calGrid"></div>
+      <div class="cal-body">
+        <div class="cal-grid" id="calGrid"></div>
+      </div>
     </div>
 
     <div class="session-detail" id="sessionDetail">
@@ -322,7 +418,7 @@
     },
     {
       date:'2026-09-05', day:'토', time:'저녁 6시 30분', location:'강남', group:'A그룹',
-      ageInfo:'남 90~97년생 · 여 93~00년생',
+      ageInfo:'남 90~97년생 · 여 93~00년생', closed:true,
       male:[
         {info:'90/대기업/177'},{info:'93/IT회사/176'},{info:'96/설계업/174'},{info:'92/건설사/178'},
         {info:'96/공무원/182'},{info:'94/교사/185'},{info:'97/공무원/179'},{info:'96/은행원/176'},
@@ -336,7 +432,7 @@
     },
     {
       date:'2026-09-12', day:'토', time:'저녁 6시 30분', location:'강남', group:'A그룹',
-      ageInfo:'남 90~97년생 · 여 93~00년생',
+      ageInfo:'남 90~97년생 · 여 93~00년생', closed:true,
       male:[
         {info:'93/대기업/175'},{info:'97/개발자/174'},{info:'90/변호사/172'},{info:'94/금융권/177'},
         {info:'97/공무원/180'},{info:'94/교사/185'},{info:'94/약사/173'},{info:'92/대기업/180'},
@@ -350,7 +446,7 @@
     },
     {
       date:'2026-09-19', day:'토', time:'저녁 6시 30분', location:'강남', group:'A그룹',
-      ageInfo:'남 90~97년생 · 여 93~00년생',
+      ageInfo:'남 90~97년생 · 여 93~00년생', closed:true,
       male:[
         {info:'97/대기업/175'},{info:'94/금융권/176'},{info:'93/공무원/173'},{info:'96/대기업/177'},
         {info:'97/사무직/178'}, open, open, open, open, open, open, open
@@ -362,7 +458,7 @@
     },
     {
       date:'2026-09-19', day:'토', time:'저녁 6시 30분', location:'구로', group:'A그룹',
-      ageInfo:'남 90~97년생 · 여 93~00년생',
+      ageInfo:'남 90~97년생 · 여 93~00년생', closed:true,
       male:[
         {info:'96/IT회사/173'},{info:'94/공무원/174'},{info:'97/마케터/180'},{info:'94/금융권/178'},
         open, open, open, open, open, open, open, open
@@ -374,6 +470,12 @@
     },
     {
       date:'2026-09-20', day:'일', time:'오후 3시', location:'강남', group:'A그룹',
+      ageInfo:'남 90~97년생 · 여 93~00년생', closed:true,
+      bulkOpen: true,
+      male:[], female:[]
+    },
+    {
+      date:'2026-10-25', day:'일', time:'오후 3시', location:'강남', group:'A그룹',
       ageInfo:'남 90~97년생 · 여 93~00년생',
       bulkOpen: true,
       male:[], female:[]
@@ -400,12 +502,20 @@
   var calGridEl = document.getElementById('calGrid');
   var detailEl = document.getElementById('sessionDetail');
 
+  // 다시 그린 뒤에도 키보드 초점이 방금 누른 자리에 남도록
+  function refocus(root, selector){
+    var el = root.querySelector(selector);
+    if(el) el.focus();
+  }
+
   function renderMonthTabs(){
     monthTabsEl.innerHTML = '';
     monthKeys.forEach(function(key){
       var m = parseInt(key.slice(5,7), 10);
       var btn = document.createElement('button');
+      btn.type = 'button';
       btn.className = 'month-tab' + (key === activeMonth ? ' active' : '');
+      btn.setAttribute('aria-pressed', key === activeMonth ? 'true' : 'false');
       btn.textContent = m + '월';
       btn.onclick = function(){
         activeMonth = key;
@@ -413,6 +523,7 @@
         renderMonthTabs();
         renderCalendar();
         renderDetailPlaceholder();
+        refocus(monthTabsEl, '.active');
       };
       monthTabsEl.appendChild(btn);
     });
@@ -444,7 +555,7 @@
       var dateStr = activeMonth + '-' + (d < 10 ? '0'+d : d);
       var sessionsOnDay = monthMap[activeMonth].filter(function(s){ return s.date === dateStr; });
       var allClosed = sessionsOnDay.length > 0 && sessionsOnDay.every(function(s){ return s.closed; });
-      var cell = document.createElement('div');
+      var cell = document.createElement(sessionsOnDay.length ? 'button' : 'div');
       cell.className = 'cal-day'
         + (sessionsOnDay.length ? ' has-session' : '')
         + (allClosed ? ' is-closed' : '')
@@ -453,6 +564,9 @@
       num.textContent = d;
       cell.appendChild(num);
       if(sessionsOnDay.length){
+        cell.type = 'button';
+        cell.setAttribute('aria-label', month + '월 ' + d + '일 회차 보기' + (allClosed ? ' (마감)' : ''));
+        cell.setAttribute('aria-pressed', dateStr === selectedDate ? 'true' : 'false');
         var dot = document.createElement('span');
         dot.className = 'dot';
         cell.appendChild(dot);
@@ -462,6 +576,7 @@
             selectedIndex = 0;
             renderCalendar();
             renderDetail();
+            refocus(calGridEl, '.selected');
           };
         })(dateStr);
       }
@@ -486,9 +601,9 @@
     var html = '';
 
     if(daySessions.length > 1){
-      html += '<div class="detail-subtabs">';
+      html += '<div class="seg">';
       daySessions.forEach(function(s, idx){
-        html += '<button class="subtab' + (idx === selectedIndex ? ' active' : '') + '" data-idx="'+idx+'">' + s.location + '</button>';
+        html += '<button type="button" class="subtab' + (idx === selectedIndex ? ' active' : '') + '" aria-pressed="' + (idx === selectedIndex) + '" data-idx="'+idx+'">' + s.location + '</button>';
       });
       html += '</div>';
     }
@@ -497,6 +612,10 @@
     var dateParts = s.date.split('-');
     var maleOpen = s.male.filter(function(p){return p.status==='open';}).length;
     var femaleOpen = s.female.filter(function(p){return p.status==='open';}).length;
+    // 마감된 회차는 빈자리 줄을 보여주지 않음
+    var filled = function(p){ return p.status !== 'open'; };
+    var male = s.closed ? s.male.filter(filled) : s.male;
+    var female = s.closed ? s.female.filter(filled) : s.female;
 
     html += '<div class="detail-card">';
     html += '  <div class="detail-head">';
@@ -504,18 +623,20 @@
     html += '    <div class="detail-tags'+(s.closed ? ' closed-tag' : '')+'">'+(s.closed ? '모집 마감 · ' : '')+s.group+' · '+s.ageInfo+'</div>';
     html += '  </div>';
     if(s.bulkOpen){
-      html += '  <div style="text-align:center;padding:28px 0;color:var(--accent);font-size:15px;font-weight:700;">모집중</div>';
+      html += '  <div class="detail-status'+(s.closed ? ' closed' : '')+'">'+(s.closed ? '모집 마감' : '모집중')+'</div>';
     } else {
       html += '  <div class="attendee-grid">';
-      html += '    <div class="attendee-col"><h5>남성 ('+(12-maleOpen)+'/12)</h5>' + s.male.map(function(p,i){return attendeeRowHtml(i+1,p);}).join('') + '</div>';
-      html += '    <div class="attendee-col"><h5>여성 ('+(12-femaleOpen)+'/12)</h5>' + s.female.map(function(p,i){return attendeeRowHtml(i+1,p);}).join('') + '</div>';
+      html += '    <div class="attendee-col"><h3>남성 ('+(12-maleOpen)+'/12)</h3>' + male.map(function(p,i){return attendeeRowHtml(i+1,p);}).join('') + '</div>';
+      html += '    <div class="attendee-col"><h3>여성 ('+(12-femaleOpen)+'/12)</h3>' + female.map(function(p,i){return attendeeRowHtml(i+1,p);}).join('') + '</div>';
       html += '  </div>';
     }
+    html += '  <div class="detail-foot">';
     if(s.closed){
-      html += '  <span class="btn-small disabled">모집 마감된 회차예요</span>';
+      html += '    <span class="btn-primary disabled">모집 마감된 회차예요</span>';
     } else {
-      html += '  <a class="btn-small" href="'+applyLink+'" target="_blank" rel="noopener">이 회차 신청하기</a>';
+      html += '    <a class="btn-primary" href="'+applyLink+'" target="_blank" rel="noopener">이 회차 신청하기</a>';
     }
+    html += '  </div>';
     html += '</div>';
 
     detailEl.innerHTML = html;
@@ -526,6 +647,7 @@
         btn.onclick = function(){
           selectedIndex = parseInt(btn.getAttribute('data-idx'), 10);
           renderDetail();
+          refocus(detailEl, '.subtab.active');
         };
       });
     }
@@ -539,27 +661,37 @@
 
 <section>
   <div class="wrap">
-    <div class="eyebrow">입장료</div>
-    <h2>가격 안내</h2>
-    <table class="price-table">
-      <tr><th></th><th>여성</th><th>남성</th></tr>
-      <tr><td>일반</td><td><b>₩35,000</b></td><td><b>₩45,000</b></td></tr>
-    </table>
-    <p class="price-note">대관료 · 음료 포함 · 확정 후 계좌 안내 · 회차별 가격이 다를 수 있어요</p>
+    <div class="sec-head">
+      <div class="eyebrow">입장료</div>
+      <h2>가격 안내</h2>
+    </div>
+    <div class="cards price-cards">
+      <div class="card"><div class="p-label">여성 · 일반</div><div class="p-value">₩35,000</div></div>
+      <div class="card"><div class="p-label">남성 · 일반</div><div class="p-value">₩45,000</div></div>
+    </div>
+    <p class="note">대관료 · 음료 포함 · 확정 후 계좌 안내 · 회차별 가격이 다를 수 있어요</p>
 
-    <h2 style="margin-top:32px;">환불 규정</h2>
-    <table class="refund-table">
-      <tr><th>10일 전</th><th>7~9일 전</th><th>5~6일 전</th><th>4일 전~당일</th></tr>
-      <tr><td>100%</td><td>70%</td><td>50%</td><td>환불 불가</td></tr>
-    </table>
-    <p class="price-note">무단 불참(노쇼) 시 환불되지 않으며 이후 참여가 제한될 수 있어요.</p>
+    <div class="sec-head sub-head">
+      <h2>환불 규정</h2>
+    </div>
+    <div class="panel">
+      <dl class="rows">
+        <div class="row"><dt>10일 전</dt><dd>100%</dd></div>
+        <div class="row"><dt>7~9일 전</dt><dd>70%</dd></div>
+        <div class="row"><dt>5~6일 전</dt><dd>50%</dd></div>
+        <div class="row"><dt>4일 전~당일</dt><dd>환불 불가</dd></div>
+      </dl>
+    </div>
+    <p class="note">무단 불참(노쇼) 시 환불되지 않으며 이후 참여가 제한될 수 있어요.</p>
   </div>
 </section>
 
 <section id="faq">
   <div class="wrap">
-    <div class="eyebrow">FAQ</div>
-    <h2>자주 묻는 질문</h2>
+    <div class="sec-head">
+      <div class="eyebrow">FAQ</div>
+      <h2>자주 묻는 질문</h2>
+    </div>
 
     <div class="faq-group">참가 조건</div>
     <details>
@@ -578,7 +710,7 @@
     <div class="faq-group">진행 방식</div>
     <details>
       <summary>대화가 어색하면 어떻게 하나요?</summary>
-      <p>10분은 생각보다 짧아서, 어색해질 즈음이면 다음 라운드로 넘어가요. 호스트가 가벼운 대화 주제도 안내해드리니 준비 없이 오셔도 괜찮아요.</p>
+      <p>한 사람과의 대화는 생각보다 짧아서, 어색해질 즈음이면 다음 자리로 넘어가요. 호스트가 가벼운 대화 주제도 안내해드리니 준비 없이 오셔도 괜찮아요.</p>
     </details>
     <details>
       <summary>마음에 드는 사람이 있으면 어떻게 하나요?</summary>
@@ -597,9 +729,11 @@
   </div>
 </section>
 
+</main>
+
 <footer>
   <div class="wrap">
-    <div class="f-brand"><img src="findy-logo.jpg" alt="FINDY 로고">FINDY</div>
+    <div class="f-brand"><img src="findy-logo.jpg" alt="FINDY 로고" width="22" height="22">FINDY</div>
     <div class="f-legal" style="display:none;">
       <b>상호명</b> (예시) ○○○ · <b>대표</b> ○○○ · <b>사업자등록번호</b> 000-00-00000<br>
       <b>통신판매업신고</b> 0000-서울○○-0000호 · <b>결혼중개업신고</b> 서울-○○-국내 00-0000<br>
@@ -615,7 +749,7 @@
   </div>
 </footer>
 <a class="kakao-float" href="http://pf.kakao.com/_eZPrX" target="_blank" rel="noopener">
-  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="#191919" d="M12 3C6.48 3 2 6.58 2 11c0 2.86 1.87 5.37 4.68 6.79-.15.55-.96 3.49-.99 3.72 0 0-.02.16.09.22a.3.3 0 0 0 .24 0c.32-.05 3.68-2.42 4.26-2.83.55.08 1.12.12 1.72.12 5.52 0 10-3.58 10-8s-4.48-8-10-8z"/></svg>
+  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path fill="#191919" d="M12 3C6.48 3 2 6.58 2 11c0 2.86 1.87 5.37 4.68 6.79-.15.55-.96 3.49-.99 3.72 0 0-.02.16.09.22a.3.3 0 0 0 .24 0c.32-.05 3.68-2.42 4.26-2.83.55.08 1.12.12 1.72.12 5.52 0 10-3.58 10-8s-4.48-8-10-8z"/></svg>
   카카오톡 문의하기
 </a>
 
