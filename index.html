@@ -65,19 +65,19 @@
   .btn-secondary:hover{background:rgba(26,25,23,.1);}
 
   .story{padding:56px 0 24px;}
-  .story .wrap{max-width:880px;display:grid;grid-template-columns:minmax(0,360px) 1fr;column-gap:64px;align-items:start;}
-  .story-head{grid-column:1 / -1;text-align:center;margin-bottom:36px;}
+  .story .wrap{max-width:880px;}
+  .story-head{text-align:center;margin-bottom:28px;}
   .statement{font-family:var(--serif);font-size:28px;line-height:1.4;font-weight:500;letter-spacing:-.02em;}
-  .story-pin{position:sticky;top:max(calc(var(--nav-h) + 24px),calc(50vh + var(--nav-h) / 2 - 180px));}
-  .story-media{position:relative;aspect-ratio:1/1;max-height:calc(100vh - var(--nav-h) - 48px);border-radius:24px;overflow:hidden;background:var(--panel);}
-  .story-media img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .6s ease;}
-  .story-media img.active{opacity:1;}
-  .story-step{min-height:46vh;display:flex;flex-direction:column;justify-content:center;}
-  .step-img{display:none;}
-  .story-step .s-num{font-size:12.5px;font-weight:600;color:var(--muted);margin-bottom:8px;font-variant-numeric:tabular-nums;}
-  .story-step.active .s-num{color:var(--accent);}
+  .story-step{display:grid;grid-template-columns:minmax(0,360px) 1fr;column-gap:64px;align-items:center;padding:20px 0;}
+  .story-step:nth-child(even){grid-template-columns:1fr minmax(0,360px);}
+  .story-step:nth-child(even) .step-img{order:2;}
+  .step-img{display:block;width:100%;height:auto;aspect-ratio:1/1;object-fit:cover;border-radius:24px;background:var(--panel);}
+  .s-num{font-size:12.5px;font-weight:600;color:var(--accent);margin-bottom:8px;font-variant-numeric:tabular-nums;}
   .story-step h3{margin:0 0 8px;font-size:22px;line-height:1.4;font-weight:600;letter-spacing:-.02em;text-wrap:balance;}
   .story-step p{margin:0;font-size:15px;color:var(--muted);max-width:360px;}
+
+  .rv{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease;}
+  .rv.in{opacity:1;transform:none;}
 
   .panel{background:var(--panel);border-radius:14px;padding:6px;}
   .rows{margin:0;background:var(--surface);border-radius:10px;}
@@ -164,16 +164,12 @@
   .kakao-float svg{width:20px;height:20px;flex:0 0 auto;}
 
   @media(max-width:760px){
-    .story .wrap{grid-template-columns:1fr;}
     .story-head{margin-bottom:10px;}
-    .story-pin{display:none;}
-    .story-step{min-height:0;display:block;padding:10px 0 28px;}
-    .step-img{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;border-radius:18px;margin-bottom:16px;background:var(--panel);}
-    .story-step .s-num{color:var(--accent);}
+    .story-step,.story-step:nth-child(even){grid-template-columns:1fr;padding:10px 0 28px;}
+    .story-step:nth-child(even) .step-img{order:0;}
+    .step-img{aspect-ratio:16/9;border-radius:18px;margin-bottom:16px;}
     .story-step h3{font-size:19px;}
     .story-step p{font-size:14px;max-width:none;}
-    .reveal .story-step{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease;}
-    .reveal .story-step.in{opacity:1;transform:none;}
   }
 
   @media(max-width:600px){
@@ -219,7 +215,7 @@
 
   @media(prefers-reduced-motion:reduce){
     html{scroll-behavior:auto;}
-    .story-media img,.nav-links a,.nav-cta,.btn-primary,.btn-secondary,.seg button,.cal-day,summary::after{transition:none;}
+    .nav-links a,.nav-cta,.btn-primary,.btn-secondary,.seg button,.cal-day,summary::after{transition:none;}
   }
 </style>
 </head>
@@ -259,68 +255,14 @@
       <div class="eyebrow">FINDY의 시간</div>
       <h2 class="statement"><span class="tone">도착부터 마지막 대화까지</span>시간은 이렇게 흘러가요</h2>
     </div>
-    <div class="story-pin" id="storyPin">
-      <div class="story-media" id="storyMedia">
-        <img class="active" src="media/story-1.jpg" width="1200" height="1200" alt="접수 테이블 위에 가지런히 놓인 빈 명찰과 빨간 펜">
-        <img src="media/story-2.jpg" width="1200" height="1200" loading="lazy" decoding="async" alt="작은 원형 테이블에 마주 앉은 두 사람의 손, 찻잔 두 개와 모래시계">
-        <img src="media/story-3.jpg" width="1200" height="1200" loading="lazy" decoding="async" alt="나란히 놓인 2인용 테이블 옆으로 다음 자리를 향해 걸어가는 사람의 뒷모습">
-        <img src="media/story-4.jpg" width="1200" height="1200" loading="lazy" decoding="async" alt="찻잔과 명찰이 놓인 테이블 위에서 휴대폰을 들고 있는 손">
-      </div>
-    </div>
     <div class="story-steps" id="storySteps">
-      <div class="story-step active"><img class="step-img" src="media/story-1.jpg" width="1200" height="1200" loading="lazy" decoding="async" alt="접수 테이블 위에 가지런히 놓인 빈 명찰과 빨간 펜"><div class="s-num">1</div><h3>도착하면 명찰을 받아요</h3><p>체크인하고 신분증으로 본인 확인을 마치면, 닉네임 명찰을 드려요.</p></div>
-      <div class="story-step"><img class="step-img" src="media/story-2.jpg" width="1200" height="1200" loading="lazy" decoding="async" alt="작은 원형 테이블에 마주 앉은 두 사람의 손, 찻잔 두 개와 모래시계"><div class="s-num">2</div><h3>한 사람과 마주 앉아요</h3><p>한 번에 한 사람과만 대화해요. 시간은 호스트가 타이머로 관리해요.</p></div>
-      <div class="story-step"><img class="step-img" src="media/story-3.jpg" width="1200" height="1200" loading="lazy" decoding="async" alt="나란히 놓인 2인용 테이블 옆으로 다음 자리를 향해 걸어가는 사람의 뒷모습"><div class="s-num">3</div><h3>다음 자리로 옮겨요</h3><p>자리가 돌아가니 어색할 틈이 없어요. 호스트 안내에 따라 다음 사람을 만나요.</p></div>
-      <div class="story-step"><img class="step-img" src="media/story-4.jpg" width="1200" height="1200" loading="lazy" decoding="async" alt="찻잔과 명찰이 놓인 테이블 위에서 휴대폰을 들고 있는 손"><div class="s-num">4</div><h3>마음에 들면 연락처를 나눠요</h3><p>대화 중 마음에 드는 분이 있다면, 현장에서 자유롭게 연락처를 교환할 수 있어요.</p></div>
+      <div class="story-step"><img class="step-img" src="media/story-1.jpg" width="1200" height="1200" loading="lazy" decoding="async" alt="접수 테이블 위에 가지런히 놓인 빈 명찰과 빨간 펜"><div><div class="s-num">1</div><h3>도착하면 명찰을 받아요</h3><p>체크인하고 신분증으로 본인 확인을 마치면, 닉네임 명찰을 드려요.</p></div></div>
+      <div class="story-step"><img class="step-img" src="media/story-2.jpg" width="1200" height="1200" loading="lazy" decoding="async" alt="작은 원형 테이블에 마주 앉은 두 사람의 손, 찻잔 두 개와 모래시계"><div><div class="s-num">2</div><h3>한 사람과 마주 앉아요</h3><p>한 번에 한 사람과만 대화해요. 시간은 호스트가 타이머로 관리해요.</p></div></div>
+      <div class="story-step"><img class="step-img" src="media/story-3.jpg" width="1200" height="1200" loading="lazy" decoding="async" alt="나란히 놓인 2인용 테이블 옆으로 다음 자리를 향해 걸어가는 사람의 뒷모습"><div><div class="s-num">3</div><h3>다음 자리로 옮겨요</h3><p>자리가 돌아가니 어색할 틈이 없어요. 호스트 안내에 따라 다음 사람을 만나요.</p></div></div>
+      <div class="story-step"><img class="step-img" src="media/story-4.jpg" width="1200" height="1200" loading="lazy" decoding="async" alt="찻잔과 명찰이 놓인 테이블 위에서 휴대폰을 들고 있는 손"><div><div class="s-num">4</div><h3>마음에 들면 연락처를 나눠요</h3><p>대화 중 마음에 드는 분이 있다면, 현장에서 자유롭게 연락처를 교환할 수 있어요.</p></div></div>
     </div>
   </div>
 </section>
-
-<script>
-(function(){
-  var steps=document.querySelectorAll('#storySteps .story-step');
-  var imgs=document.querySelectorAll('#storyMedia img');
-  var pin=document.getElementById('storyPin');
-  if(!steps.length||!pin) return;
-  // 좁은 화면에서는 고정 없이 흘러가고, 각 단계가 화면에 들어올 때 한 번 떠오름
-  if('IntersectionObserver' in window&&!window.matchMedia('(prefers-reduced-motion: reduce)').matches){
-    document.getElementById('storySteps').classList.add('reveal');
-    var io=new IntersectionObserver(function(entries){
-      entries.forEach(function(e){
-        if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}
-      });
-    },{rootMargin:'0px 0px -12% 0px'});
-    steps.forEach(function(s){io.observe(s);});
-  }
-  var narrow=window.matchMedia('(max-width:760px)');
-  var cur=0, line=0, ticking=false;
-  function show(i){
-    cur=i;
-    steps.forEach(function(s,n){s.classList.toggle('active',n===i);});
-    imgs.forEach(function(m,n){m.classList.toggle('active',n===i);});
-  }
-  // 전환 기준선: 넓은 화면은 고정된 그림의 세로 가운데, 좁은 화면은 그림 아래 남는 영역의 가운데
-  function measure(){
-    var top=parseFloat(getComputedStyle(pin).top)||0;
-    line=narrow.matches ? (top+pin.offsetHeight+window.innerHeight)/2 : top+pin.offsetHeight/2;
-  }
-  function update(){
-    ticking=false;
-    var idx=0;
-    for(var i=0;i<steps.length;i++){
-      if(steps[i].getBoundingClientRect().top<=line) idx=i;
-    }
-    if(idx!==cur) show(idx);
-  }
-  function request(){
-    if(!ticking){ticking=true;window.requestAnimationFrame(update);}
-  }
-  window.addEventListener('scroll',request,{passive:true});
-  window.addEventListener('resize',function(){measure();request();});
-  measure();
-  update();
-})();
-</script>
 
 <section id="how">
   <div class="wrap">
@@ -764,6 +706,20 @@
   <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path fill="#191919" d="M12 3C6.48 3 2 6.58 2 11c0 2.86 1.87 5.37 4.68 6.79-.15.55-.96 3.49-.99 3.72 0 0-.02.16.09.22a.3.3 0 0 0 .24 0c.32-.05 3.68-2.42 4.26-2.83.55.08 1.12.12 1.72.12 5.52 0 10-3.58 10-8s-4.48-8-10-8z"/></svg>
   카카오톡 문의하기
 </a>
+
+<script>
+// 각 묶음이 화면에 들어올 때 한 번 아래에서 떠오름
+(function(){
+  if(!('IntersectionObserver' in window)||window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var targets=document.querySelectorAll('.story-head,.story-step,main > section:not(.hero):not(.story) > .wrap');
+  var io=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}
+    });
+  },{rootMargin:'0px 0px -10% 0px'});
+  targets.forEach(function(t){t.classList.add('rv');io.observe(t);});
+})();
+</script>
 
 </body>
 </html>
