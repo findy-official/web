@@ -1,0 +1,986 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FINDY — 영화 모임</title>
+<meta name="description" content="함께 영화를 감상한 뒤 한 명씩 돌아가며 대화해요. 같은 영화를 보고 이야기로 가까워지는 시간, FINDY 영화 모임.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="FINDY — 영화 모임">
+<meta property="og:description" content="함께 영화를 감상한 뒤 한 명씩 돌아가며 대화해요. 같은 영화를 보고 이야기로 가까워지는 시간, FINDY 영화 모임.">
+<meta name="theme-color" content="#FAFAF9">
+<link rel="icon" type="image/jpeg" href="../findy-logo.jpg">
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@500&display=swap" rel="stylesheet">
+<style>
+  @font-face{font-family:'NanumSquare';font-weight:700;font-display:swap;src:url(https://cdn.jsdelivr.net/gh/moonspam/NanumSquare@2.0/NanumSquareB.woff2) format('woff2'),url(https://cdn.jsdelivr.net/gh/moonspam/NanumSquare@2.0/NanumSquareB.woff) format('woff');}
+  :root{
+    --bg:#FAFAF9; --panel:#F2F2F0; --surface:#FFFFFF; --ink:#1A1917; --muted:#6B6460; --faint:#8F8D89;
+    --line:#E6E5E1; --chip:#E9E8E4; --accent:#C42B2B; --accent-dark:#A92323; --accent-soft:#F8E6E5;
+    --movie:#2B5B84; --movie-dark:#22496A; --movie-soft:#E6EFF7; --ok:#2E7D4F;
+    --sans:'Pretendard Variable',Pretendard,-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Malgun Gothic',sans-serif;
+    --serif:'Noto Serif KR',AppleMyungjo,'Nanum Myeongjo',serif;
+    --display:'NanumSquare','Pretendard Variable',Pretendard,-apple-system,'Apple SD Gothic Neo','Malgun Gothic',sans-serif;
+    --nav-h:64px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;scroll-padding-top:calc(var(--nav-h) + 40px);-webkit-text-size-adjust:100%;}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:14px;line-height:1.7;-webkit-font-smoothing:antialiased;word-break:keep-all;overflow-wrap:break-word;}
+  a{color:inherit;}
+  a,button{touch-action:manipulation;}
+  :focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
+  .skip{position:absolute;left:12px;top:-48px;z-index:100;background:var(--ink);color:#fff;font-size:13px;font-weight:500;text-decoration:none;padding:8px 14px;border-radius:999px;}
+  .skip:focus{top:10px;}
+  .wrap{max-width:680px;margin:0 auto;padding:0 28px;}
+  .wrap-wide{max-width:960px;}
+
+  nav{position:sticky;top:0;z-index:50;background:rgba(250,250,249,.9);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);}
+  .nav-in{max-width:1120px;margin:0 auto;padding:0 28px;height:var(--nav-h);display:grid;grid-template-columns:1fr auto 1fr;align-items:center;}
+  .logo{justify-self:start;font-size:17px;font-weight:700;color:var(--ink);text-decoration:none;letter-spacing:.02em;display:flex;align-items:center;gap:8px;}
+  .logo img{height:28px;width:28px;border-radius:8px;display:block;}
+  .nav-tabs{margin-bottom:0;}
+  .nav-tabs button{padding:5px 14px;font-size:13px;white-space:nowrap;}
+  .sub-nav{display:flex;justify-content:center;padding:0 14px 8px;}
+  .nav-links{display:flex;gap:4px;align-items:center;}
+  .nav-links a{font-size:13px;font-weight:500;color:var(--muted);text-decoration:none;white-space:nowrap;padding:4px 12px;border-radius:999px;transition:color .15s,background-color .15s;}
+  .nav-links a:hover{color:var(--ink);background:rgba(26,25,23,.05);}
+  .nav-cta{justify-self:end;font-size:13px;font-weight:600;color:#fff;background:var(--accent);text-decoration:none;white-space:nowrap;padding:8px 16px;border-radius:999px;transition:background-color .15s;}
+  .nav-cta:hover{background:var(--accent-dark);}
+
+  section{padding:44px 0;}
+  .sec-head{margin-bottom:18px;}
+  .eyebrow{font-size:12.5px;font-weight:500;color:var(--muted);margin-bottom:4px;}
+  h2{font-size:20px;line-height:1.4;font-weight:600;margin:0;letter-spacing:-.015em;text-wrap:balance;}
+  .sec-sub{font-size:13.5px;color:var(--muted);margin:4px 0 0;}
+  .sub-head{margin-top:36px;}
+  .note{font-size:12.5px;color:var(--muted);margin:10px 2px 0;}
+
+  .hero{padding:76px 0 64px;text-align:center;}
+  .badge{display:inline-flex;align-items:center;gap:7px;background:var(--surface);border-radius:999px;padding:5px 12px 5px 10px;font-size:12px;font-weight:500;color:var(--muted);box-shadow:0 0 0 1px var(--line),0 1px 2px rgba(26,25,23,.05);margin-bottom:22px;}
+  .badge::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--accent);}
+  .badge.movie-badge::before{background:var(--movie);}
+  h1{font-family:var(--display);font-size:40px;line-height:1.35;font-weight:700;margin:0 0 16px;letter-spacing:-.025em;}
+  .tone{display:block;color:var(--faint);}
+  .hero .sub{font-size:15px;color:var(--muted);max-width:420px;margin:0 auto 30px;}
+  .cta-row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;}
+  .btn-primary,.btn-secondary{display:inline-flex;align-items:center;justify-content:center;height:48px;padding:0 26px;border:none;border-radius:999px;font-size:14.5px;font-weight:600;font-family:inherit;text-decoration:none;cursor:pointer;transition:background-color .15s;}
+  .btn-primary{background:var(--accent);color:#fff;}
+  .btn-primary:hover{background:var(--accent-dark);}
+  .btn-primary.movie-btn{background:var(--movie);}
+  .btn-primary.movie-btn:hover{background:var(--movie-dark);}
+  .btn-primary.disabled{background:var(--chip);color:var(--muted);cursor:default;pointer-events:none;}
+  .btn-secondary{background:rgba(26,25,23,.06);color:var(--ink);}
+  .btn-secondary:hover{background:rgba(26,25,23,.1);}
+
+  .story{padding:56px 0 24px;}
+  .story .wrap{max-width:880px;}
+  .story-head{text-align:center;margin-bottom:28px;}
+  .statement{font-family:var(--serif);font-size:28px;line-height:1.4;font-weight:500;letter-spacing:-.02em;}
+  .story-step{display:grid;grid-template-columns:minmax(0,360px) 1fr;column-gap:64px;align-items:center;padding:20px 0;}
+  .story-step:nth-child(even){grid-template-columns:1fr minmax(0,360px);}
+  .story-step:nth-child(even) .step-img{order:2;}
+  .step-img{display:block;width:100%;height:auto;aspect-ratio:1/1;object-fit:cover;border-radius:24px;background:var(--panel);}
+  .s-num{font-size:12.5px;font-weight:600;color:var(--accent);margin-bottom:8px;font-variant-numeric:tabular-nums;}
+  .story-step h3{margin:0 0 8px;font-size:22px;line-height:1.4;font-weight:600;letter-spacing:-.02em;text-wrap:balance;}
+  .story-step p{margin:0;font-size:15px;color:var(--muted);max-width:360px;}
+
+  .rv{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease;}
+  .rv.in{opacity:1;transform:none;}
+
+  .panel{background:var(--panel);border-radius:14px;padding:6px;}
+  .rows{margin:0;background:var(--surface);border-radius:10px;}
+  .row{display:grid;grid-template-columns:150px 1fr;gap:16px;padding:13px 16px;border-top:1px solid var(--line);}
+  .row:first-child{border-top:none;}
+  .row dt{font-size:13px;font-weight:500;color:var(--muted);}
+  .row dd{margin:0;font-size:13.5px;font-variant-numeric:tabular-nums;}
+
+  .flow{list-style:none;margin:0;padding:6px;background:var(--panel);border-radius:14px;counter-reset:flow;display:grid;gap:4px;}
+  .flow li{counter-increment:flow;display:grid;grid-template-columns:22px 1fr;column-gap:14px;padding:14px 16px;background:var(--surface);border-radius:10px;}
+  .flow li::before{content:counter(flow);width:22px;height:22px;border-radius:50%;background:var(--panel);color:var(--muted);font-size:12px;font-weight:600;display:flex;align-items:center;justify-content:center;margin-top:1px;}
+  .flow h3{margin:0 0 2px;font-size:14.5px;font-weight:600;}
+  .flow p{margin:0;font-size:13.5px;color:var(--muted);}
+
+  .cards{display:grid;grid-template-columns:1fr 1fr;gap:6px;}
+  .card{background:var(--panel);border-radius:14px;padding:18px 20px;}
+  .card h3{margin:0 0 4px;font-size:14.5px;font-weight:600;}
+  .card p{margin:0;font-size:13.5px;color:var(--muted);}
+  .p-label{font-size:12.5px;font-weight:500;color:var(--muted);}
+  .p-value{font-size:22px;line-height:1.5;font-weight:600;letter-spacing:-.01em;font-variant-numeric:tabular-nums;}
+
+  .seg{display:flex;width:fit-content;gap:2px;background:var(--panel);border-radius:10px;padding:4px;margin-bottom:10px;}
+  .seg button{background:none;border:none;border-radius:8px;padding:5px 14px;font-size:13px;font-weight:500;color:var(--muted);cursor:pointer;font-family:inherit;transition:color .15s;}
+  .seg button:hover{color:var(--ink);}
+  .seg button.active{background:var(--surface);color:var(--ink);box-shadow:0 1px 2px rgba(26,25,23,.08);}
+  [hidden]{display:none !important;}
+
+  .calendar{background:var(--panel);border-radius:14px;padding:6px;}
+  .cal-header{display:flex;align-items:center;justify-content:space-between;padding:9px 12px 11px;}
+  .cal-header b{font-size:14px;font-weight:600;font-variant-numeric:tabular-nums;}
+  .cal-legend{font-size:12px;color:var(--muted);display:flex;align-items:center;gap:12px;}
+  .cal-legend span{display:inline-flex;align-items:center;gap:6px;}
+  .swatch{width:10px;height:10px;border-radius:3px;background:var(--accent-soft);box-shadow:inset 0 0 0 1px rgba(196,43,43,.3);}
+  .swatch.movie{background:var(--movie-soft);box-shadow:inset 0 0 0 1px rgba(43,91,132,.3);}
+  .swatch.closed{background:var(--chip);box-shadow:inset 0 0 0 1px rgba(26,25,23,.12);}
+  .cal-body{background:var(--surface);border-radius:10px;padding:12px;}
+  .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;text-align:center;}
+  .cal-dow{font-size:11.5px;color:var(--muted);font-weight:500;padding:2px 0 8px;}
+  .cal-day{position:relative;aspect-ratio:4/3;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;border:0;padding:0;border-radius:10px;background:none;font-family:inherit;font-size:13px;color:var(--ink);font-variant-numeric:tabular-nums;transition:background-color .15s,color .15s;}
+  .cal-day.empty{visibility:hidden;}
+  .cal-day.has-session{cursor:pointer;font-weight:600;background:var(--accent-soft);color:var(--accent);}
+  .cal-day.has-session:hover,.cal-day.has-session.selected{background:var(--accent);color:#fff;}
+  .cal-day.has-session.is-movie{background:var(--movie-soft);color:var(--movie);}
+  .cal-day.has-session.is-movie:hover,.cal-day.has-session.is-movie.selected{background:var(--movie);color:#fff;}
+  .cal-day.is-closed{background:var(--chip);color:var(--muted);}
+  .cal-day.is-closed:hover,.cal-day.is-closed.selected{background:var(--muted);color:#fff;}
+  .cal-day .dot{width:4px;height:4px;border-radius:50%;background:currentColor;}
+
+  .session-detail{margin-top:10px;}
+  .cal-placeholder{margin:0;color:var(--muted);font-size:13.5px;text-align:center;padding:26px 16px;background:var(--panel);border-radius:14px;}
+  .detail-card{background:var(--panel);border-radius:14px;padding:6px;}
+  .detail-head{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;padding:12px 12px 14px;}
+  .detail-head b{font-size:16px;line-height:1.4;font-weight:600;display:block;font-variant-numeric:tabular-nums;}
+  .detail-head span{font-size:13px;color:var(--muted);}
+  .detail-tags{font-size:12px;font-weight:500;color:var(--accent);background:var(--accent-soft);padding:5px 12px;border-radius:999px;white-space:nowrap;}
+  .detail-tags.movie-tag{color:var(--movie);background:var(--movie-soft);}
+  .detail-tags.closed-tag{color:var(--muted);background:var(--chip);}
+  .detail-status{background:var(--surface);border-radius:10px;text-align:center;padding:30px 0;font-size:14.5px;font-weight:600;color:var(--accent);}
+  .detail-status.closed{color:var(--muted);}
+  .attendee-grid{display:grid;grid-template-columns:1fr 1fr;gap:4px;}
+  .attendee-col{background:var(--surface);border-radius:10px;padding:14px 16px 8px;}
+  .attendee-col h3{font-size:12.5px;color:var(--muted);font-weight:500;margin:0 0 6px;}
+  .attendee-row{display:flex;align-items:center;gap:8px;padding:7px 0;border-top:1px solid var(--line);font-size:13px;}
+  .attendee-no{width:18px;flex:0 0 auto;color:var(--muted);font-size:11.5px;font-variant-numeric:tabular-nums;}
+  .attendee-info{flex:1;min-width:0;}
+  .attendee-open{color:var(--ok);font-weight:600;}
+  .detail-foot{display:flex;justify-content:flex-end;padding:10px 4px 4px;}
+  .detail-foot .btn-primary{height:42px;padding:0 22px;font-size:13.5px;}
+
+  .faq-group{font-size:12.5px;font-weight:500;color:var(--muted);margin:22px 2px 8px;}
+  details{background:var(--panel);border-radius:12px;margin-bottom:4px;}
+  summary{cursor:pointer;font-weight:500;font-size:14.5px;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px 18px;border-radius:12px;}
+  summary::-webkit-details-marker{display:none;}
+  summary::after{content:'';flex:0 0 auto;width:7px;height:7px;margin:0 3px 3px 0;border-right:1.5px solid var(--muted);border-bottom:1.5px solid var(--muted);transform:rotate(45deg);transition:transform .15s;}
+  summary:hover::after{border-color:var(--ink);}
+  details[open] summary::after{transform:rotate(-135deg);margin:3px 3px 0 0;}
+  details p{margin:0;padding:0 18px 16px;color:var(--muted);font-size:13.5px;}
+
+  footer{padding:52px 0 96px;text-align:center;}
+  .f-brand{font-size:14px;font-weight:600;margin-bottom:12px;display:inline-flex;align-items:center;gap:8px;}
+  .f-brand img{height:22px;width:22px;border-radius:6px;display:block;}
+  .f-legal{font-size:11.5px;color:var(--muted);line-height:2;}
+  .f-legal b{color:var(--ink);}
+  .f-links{display:flex;justify-content:center;flex-wrap:wrap;gap:8px 18px;font-size:12.5px;}
+  .f-links a{color:var(--muted);text-decoration:none;}
+  .f-links a:hover{color:var(--ink);text-decoration:underline;text-underline-offset:3px;}
+
+  .kakao-float{position:fixed;right:20px;bottom:20px;z-index:60;display:flex;align-items:center;gap:8px;background:#FEE500;color:#191919;text-decoration:none;font-weight:700;font-size:14px;padding:12px 18px;border-radius:999px;box-shadow:0 4px 14px rgba(0,0,0,.18);font-family:inherit;}
+  .kakao-float svg{width:20px;height:20px;flex:0 0 auto;}
+
+  @media(max-width:760px){
+    .story-head{margin-bottom:10px;}
+    .story-step,.story-step:nth-child(even){grid-template-columns:1fr;padding:10px 0 28px;}
+    .story-step:nth-child(even) .step-img{order:0;}
+    .step-img{aspect-ratio:16/9;border-radius:18px;margin-bottom:16px;}
+    .story-step h3{font-size:19px;}
+    .story-step p{font-size:14px;max-width:none;}
+  }
+
+  @media(max-width:600px){
+    :root{--nav-h:52px;}
+    .wrap{padding:0 18px;}
+    .nav-in{display:flex;justify-content:space-between;gap:6px;padding:0 14px;}
+    .logo{font-size:16px;}
+    .nav-tabs button{padding:5px 10px;font-size:12.5px;}
+    .sub-nav{padding:0 14px 6px;}
+    .nav-links{gap:2px;}
+    .nav-links a{font-size:12.5px;padding:4px 10px;}
+    .nav-cta{font-size:12.5px;padding:7px 12px;}
+
+    section{padding:34px 0;}
+    .hero{padding:44px 0 44px;}
+    h1{font-size:29px;}
+    .hero .sub{font-size:14.5px;}
+    .cta-row{flex-direction:column;}
+    .story{padding:40px 0 16px;}
+    .statement{font-size:23px;}
+    h2{font-size:18.5px;}
+
+    .row{grid-template-columns:92px 1fr;gap:12px;padding:12px 14px;}
+    .cards{grid-template-columns:1fr;}
+    .cards.price-cards{grid-template-columns:1fr 1fr;}
+    .card{padding:16px 18px;}
+
+    .cal-body{padding:8px;}
+    .cal-day{aspect-ratio:1/1;font-size:12.5px;border-radius:8px;}
+    .cal-dow{font-size:11px;}
+    .attendee-grid{grid-template-columns:1fr;}
+    .detail-tags{white-space:normal;border-radius:10px;}
+    .detail-foot .btn-primary{width:100%;}
+
+    summary{font-size:14px;padding:13px 16px;}
+    details p{padding:0 16px 14px;}
+
+    .kakao-float{right:14px;bottom:14px;padding:11px 16px;font-size:13px;}
+  }
+
+  @media(max-width:380px){
+    h1{font-size:25px;}
+    .logo span{display:none;}
+  }
+
+  @media(prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto;}
+    .nav-links a,.nav-cta,.btn-primary,.btn-secondary,.seg button,.cal-day,summary::after{transition:none;}
+  }
+</style>
+</head>
+<body data-default-mode="movie">
+
+<a class="skip" href="#main">본문으로 건너뛰기</a>
+
+<nav>
+  <div class="nav-in">
+    <a class="logo" href="#"><img src="../findy-logo.jpg" alt="FINDY 로고" width="28" height="28"><span>FINDY</span></a>
+    <div class="seg nav-tabs" role="tablist" aria-label="모임 종류 선택">
+      <button type="button" class="mode-tab active" data-mode="talk" aria-pressed="true">1:1 대화 모임</button>
+      <button type="button" class="mode-tab" data-mode="movie" aria-pressed="false">영화 모임</button>
+    </div>
+    <a class="nav-cta" href="#sessions">신청하기</a>
+  </div>
+  <div class="sub-nav">
+    <div class="nav-links">
+      <a href="#how">진행 방식</a>
+      <a href="#sessions">일정</a>
+      <a href="#faq">FAQ</a>
+    </div>
+  </div>
+</nav>
+
+<main id="main">
+
+<section class="hero">
+  <div class="wrap">
+    <div data-mode-pane="talk">
+      <div class="badge">FInally fouND You · 1:1 대화 모임</div>
+      <h1><span class="tone">새로운 사람을 만나는</span>가장 효율적인 시간.</h1>
+      <p class="sub">여러 사람과 직접 마주 앉아 한 명씩 대화해요. 자리가 돌아가니 어색할 틈이 없고, 마음에 드는 사람이 있다면 현장에서 자유롭게 연락처를 교환할 수 있어요.</p>
+    </div>
+
+    <div data-mode-pane="movie" hidden>
+      <div class="badge movie-badge">FInally fouND You · 영화 모임</div>
+      <h1><span class="tone">같은 영화를 보고</span>이야기로 가까워지는 시간.</h1>
+      <p class="sub">함께 영화를 감상한 뒤 한 명씩 돌아가며 대화해요. 영화라는 공통 주제가 있으니 첫 대화가 자연스럽고, 마음에 드는 사람이 있다면 현장에서 자유롭게 연락처를 교환할 수 있어요.</p>
+    </div>
+
+    <div class="cta-row">
+      <a class="btn-primary" href="#sessions">다가오는 일정 보기</a>
+      <a class="btn-secondary" href="#how">어떻게 진행되나요?</a>
+    </div>
+  </div>
+</section>
+
+<section class="story" id="story" data-mode-pane="talk">
+  <div class="wrap wrap-wide">
+    <div class="story-head">
+      <div class="eyebrow">FINDY의 시간</div>
+      <h2 class="statement"><span class="tone">도착부터 마지막 대화까지</span>시간은 이렇게 흘러가요</h2>
+    </div>
+    <div class="story-steps" id="storySteps">
+      <div class="story-step"><img class="step-img" src="../media/story-1.jpg" width="1200" height="1200" loading="lazy" decoding="async" alt="접수 테이블 위에 가지런히 놓인 빈 명찰과 빨간 펜"><div><div class="s-num">1</div><h3>도착하면 명찰을 받아요</h3><p>체크인하고 신분증으로 본인 확인을 마치면, 닉네임 명찰을 드려요.</p></div></div>
+      <div class="story-step"><img class="step-img" src="../media/story-2.jpg" width="1200" height="1200" loading="lazy" decoding="async" alt="작은 원형 테이블에 마주 앉은 두 사람의 손, 찻잔 두 개와 모래시계"><div><div class="s-num">2</div><h3>한 사람과 마주 앉아요</h3><p>한 번에 한 사람과만 대화해요. 시간은 호스트가 타이머로 관리해요.</p></div></div>
+      <div class="story-step"><img class="step-img" src="../media/story-3.jpg" width="1200" height="1200" loading="lazy" decoding="async" alt="나란히 놓인 2인용 테이블 옆으로 다음 자리를 향해 걸어가는 사람의 뒷모습"><div><div class="s-num">3</div><h3>다음 자리로 옮겨요</h3><p>자리가 돌아가니 어색할 틈이 없어요. 호스트 안내에 따라 다음 사람을 만나요.</p></div></div>
+      <div class="story-step"><img class="step-img" src="../media/story-4.jpg" width="1200" height="1200" loading="lazy" decoding="async" alt="찻잔과 명찰이 놓인 테이블 위에서 휴대폰을 들고 있는 손"><div><div class="s-num">4</div><h3>마음에 들면 연락처를 나눠요</h3><p>대화 중 마음에 드는 분이 있다면, 현장에서 자유롭게 연락처를 교환할 수 있어요.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<section id="how">
+  <div class="wrap" data-mode-pane="talk">
+    <div class="sec-head">
+      <div class="eyebrow">진행 방식</div>
+      <h2>한 사람씩, 돌아가며 대화해요</h2>
+      <p class="sec-sub">여성과 남성 참가자가 한 사람씩 돌아가며 1:1로 대화해요.</p>
+    </div>
+    <div class="panel">
+      <dl class="rows">
+        <div class="row"><dt>대화</dt><dd>한 번에 한 사람과 1:1로 마주 앉아요.</dd></div>
+        <div class="row"><dt>자리 이동</dt><dd>대화가 끝나면 다음 자리로 옮겨요.</dd></div>
+        <div class="row"><dt>진행</dt><dd>호스트가 타이머로 시간을 관리해요.</dd></div>
+        <div class="row"><dt>연락처</dt><dd>마음에 드는 분과 현장에서 자유롭게 교환해요.</dd></div>
+      </dl>
+    </div>
+  </div>
+
+  <div class="wrap" data-mode-pane="movie" hidden>
+    <div class="sec-head">
+      <div class="eyebrow">진행 방식</div>
+      <h2>영화를 함께 보고, 돌아가며 대화해요</h2>
+      <p class="sec-sub">같은 영화를 감상한 뒤 여성과 남성 참가자가 돌아가며 이야기를 나눠요.</p>
+    </div>
+    <div class="panel">
+      <dl class="rows">
+        <div class="row"><dt>영화 감상</dt><dd>모임 공간에서 함께 영화를 감상해요.</dd></div>
+        <div class="row"><dt>대화</dt><dd>감상 후 돌아가며 영화와 일상에 대해 대화해요.</dd></div>
+        <div class="row"><dt>진행</dt><dd>호스트가 대화 주제와 시간 진행을 안내해요.</dd></div>
+        <div class="row"><dt>연락처</dt><dd>마음에 드는 분과 현장에서 자유롭게 교환해요.</dd></div>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap" data-mode-pane="talk">
+    <div class="sec-head">
+      <div class="eyebrow">어떻게 진행되나요?</div>
+      <h2>신청부터 참석까지</h2>
+    </div>
+    <ol class="flow" role="list">
+      <li><div><h3>신청서 제출</h3><p>아래 일정에서 원하는 회차를 선택하고 신청서를 보내요.</p></div></li>
+      <li><div><h3>참가 확정 안내</h3><p>호스트가 검토 후 확정되신 분께 개별 연락드려요.</p></div></li>
+      <li><div><h3>입장료 입금</h3><p>확정 안내와 함께 계좌번호를 전달드려요. 입금이 확인되면 참가가 최종 확정돼요.</p></div></li>
+      <li><div><h3>당일 참석</h3><p>10분 전까지 도착해서 체크인하면, 닉네임 명찰을 받고 바로 시작해요. 대화 중 마음에 드는 분이 있다면 현장에서 자유롭게 연락처를 교환할 수 있어요.</p></div></li>
+    </ol>
+  </div>
+
+  <div class="wrap" data-mode-pane="movie" hidden>
+    <div class="sec-head">
+      <div class="eyebrow">어떻게 진행되나요?</div>
+      <h2>신청부터 참석까지</h2>
+    </div>
+    <ol class="flow" role="list">
+      <li><div><h3>신청서 제출</h3><p>아래 일정에서 원하는 회차를 선택하고 신청서를 보내요.</p></div></li>
+      <li><div><h3>참가 확정 안내</h3><p>호스트가 검토 후 확정되신 분께 개별 연락드려요.</p></div></li>
+      <li><div><h3>입장료 입금</h3><p>확정 안내와 함께 계좌번호를 전달드려요. 입금이 확인되면 참가가 최종 확정돼요.</p></div></li>
+      <li><div><h3>당일 참석</h3><p>10분 전까지 도착해서 체크인하면, 닉네임 명찰을 받고 영화를 함께 감상한 뒤 대화를 나눠요. 마음에 드는 분이 있다면 현장에서 자유롭게 연락처를 교환할 수 있어요.</p></div></li>
+    </ol>
+  </div>
+</section>
+
+<section>
+  <div class="wrap" data-mode-pane="talk">
+    <div class="sec-head">
+      <h2>왜 FINDY인가요</h2>
+    </div>
+    <div class="cards">
+      <div class="card"><h3>본인 확인</h3><p>현장에서 신분증으로 본인 확인을 진행해요. 확인된 사람끼리만 참석해요.</p></div>
+      <div class="card"><h3>호스트 진행</h3><p>현장에서 호스트가 직접 타이머를 운영하고, 처음 오신 분도 편하게 적응하도록 안내해요.</p></div>
+      <div class="card"><h3>자유로운 교류</h3><p>대화 중 마음에 드는 분이 있다면, 현장에서 자유롭게 연락처를 교환할 수 있어요.</p></div>
+      <div class="card"><h3>직접 운영</h3><p>대행사 없이, 장소 섭외부터 당일 진행까지 직접 기획하고 관리해요.</p></div>
+    </div>
+  </div>
+
+  <div class="wrap" data-mode-pane="movie" hidden>
+    <div class="sec-head">
+      <h2>왜 FINDY인가요</h2>
+    </div>
+    <div class="cards">
+      <div class="card"><h3>본인 확인</h3><p>현장에서 신분증으로 본인 확인을 진행해요. 확인된 사람끼리만 참석해요.</p></div>
+      <div class="card"><h3>자연스러운 대화</h3><p>방금 함께 본 영화로 이야기를 시작하니, 처음 만나는 자리에서도 어색함 없이 대화가 풀려요.</p></div>
+      <div class="card"><h3>자유로운 교류</h3><p>대화 중 마음에 드는 분이 있다면, 현장에서 자유롭게 연락처를 교환할 수 있어요.</p></div>
+      <div class="card"><h3>직접 운영</h3><p>대행사 없이, 작품 선정과 장소 섭외부터 당일 진행까지 직접 기획하고 관리해요.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="sessions">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow">일정</div>
+      <h2>다가오는 회차</h2>
+      <p class="sec-sub">캘린더에서 날짜를 선택하면 해당 회차의 참가자 현황을 볼 수 있어요.</p>
+    </div>
+
+    <div class="seg" id="monthTabs"></div>
+
+    <div class="calendar">
+      <div class="cal-header">
+        <b id="calTitle"></b>
+        <div class="cal-legend"><span><i class="swatch" aria-hidden="true"></i>1:1 대화</span><span><i class="swatch movie" aria-hidden="true"></i>영화 모임</span><span><i class="swatch closed" aria-hidden="true"></i>마감</span></div>
+      </div>
+      <div class="cal-body">
+        <div class="cal-grid" id="calGrid"></div>
+      </div>
+    </div>
+
+    <div class="session-detail" id="sessionDetail">
+      <p class="cal-placeholder">캘린더에서 회차가 있는 날짜를 선택해주세요.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow">입장료</div>
+      <h2>가격 안내</h2>
+    </div>
+    <div class="cards price-cards">
+      <div class="card"><div class="p-label">여성 · 일반</div><div class="p-value">₩35,000</div></div>
+      <div class="card"><div class="p-label">남성 · 일반</div><div class="p-value">₩45,000</div></div>
+    </div>
+    <p class="note" data-mode-pane="talk">대관료 · 음료 포함 · 확정 후 계좌 안내 · 회차별 가격이 다를 수 있어요</p>
+    <p class="note" data-mode-pane="movie" hidden>상영 공간 대관료 · 음료 포함 · 확정 후 계좌 안내 · 회차별 가격이 다를 수 있어요</p>
+
+    <div class="sec-head sub-head">
+      <h2>환불 규정</h2>
+    </div>
+    <div class="panel">
+      <dl class="rows">
+        <div class="row"><dt>10일 전</dt><dd>100%</dd></div>
+        <div class="row"><dt>7~9일 전</dt><dd>70%</dd></div>
+        <div class="row"><dt>5~6일 전</dt><dd>50%</dd></div>
+        <div class="row"><dt>4일 전~당일</dt><dd>환불 불가</dd></div>
+      </dl>
+    </div>
+    <p class="note">무단 불참(노쇼) 시 환불되지 않으며 이후 참여가 제한될 수 있어요.</p>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="wrap" data-mode-pane="talk">
+    <div class="sec-head">
+      <div class="eyebrow">FAQ</div>
+      <h2>자주 묻는 질문</h2>
+    </div>
+
+    <div class="faq-group">참가 조건</div>
+    <details>
+      <summary>참가 조건이 있나요?</summary>
+      <p>회차별로 연령대 등 모집 대상이 다를 수 있어요. 각 회차의 모집 조건을 확인 후 신청해주세요. 당일 현장에서 신분증으로 본인 확인을 진행해요.</p>
+    </details>
+    <details>
+      <summary>혼자 가도 되나요?</summary>
+      <p>네, 대부분 혼자 참여하세요. 현장에서 호스트가 안내해드리니 걱정하지 않으셔도 돼요.</p>
+    </details>
+    <details>
+      <summary>복장은 어떻게 입으면 될까요?</summary>
+      <p>특별한 드레스코드는 없지만, 깔끔하고 단정한 복장을 부탁드려요.</p>
+    </details>
+
+    <div class="faq-group">진행 방식</div>
+    <details>
+      <summary>대화가 어색하면 어떻게 하나요?</summary>
+      <p>한 사람과의 대화는 생각보다 짧아서, 어색해질 즈음이면 다음 자리로 넘어가요. 호스트가 가벼운 대화 주제도 안내해드리니 준비 없이 오셔도 괜찮아요.</p>
+    </details>
+    <details>
+      <summary>마음에 드는 사람이 있으면 어떻게 하나요?</summary>
+      <p>대화 중이나 자유 시간에 자연스럽게 연락처를 교환하시면 돼요. 주최 측에서 별도로 중간에 관여하지 않아요.</p>
+    </details>
+
+    <div class="faq-group">결제 · 취소</div>
+    <details>
+      <summary>결제는 언제 하나요?</summary>
+      <p>신청 시에는 결제하지 않아요. 참가 확정 후 계좌번호와 함께 개별 안내드려요.</p>
+    </details>
+    <details>
+      <summary>신청 후 취소할 수 있나요?</summary>
+      <p>모임일 기준 10일 전까지 100%, 7~9일 전 70%, 5~6일 전 50% 환불이며, 4일 전부터는 환불이 어려워요. 입금 전 취소는 자유롭게 가능해요.</p>
+    </details>
+  </div>
+
+  <div class="wrap" data-mode-pane="movie" hidden>
+    <div class="sec-head">
+      <div class="eyebrow">FAQ</div>
+      <h2>자주 묻는 질문</h2>
+    </div>
+
+    <div class="faq-group">참가 조건</div>
+    <details>
+      <summary>참가 조건이 있나요?</summary>
+      <p>회차별로 연령대 등 모집 대상이 다를 수 있어요. 각 회차의 모집 조건을 확인 후 신청해주세요. 당일 현장에서 신분증으로 본인 확인을 진행해요.</p>
+    </details>
+    <details>
+      <summary>혼자 가도 되나요?</summary>
+      <p>네, 대부분 혼자 참여하세요. 현장에서 호스트가 안내해드리니 걱정하지 않으셔도 돼요.</p>
+    </details>
+    <details>
+      <summary>복장은 어떻게 입으면 될까요?</summary>
+      <p>특별한 드레스코드는 없지만, 깔끔하고 단정한 복장을 부탁드려요.</p>
+    </details>
+
+    <div class="faq-group">진행 방식</div>
+    <details>
+      <summary>어떤 영화를 보나요?</summary>
+      <p>대화하기 좋은 작품을 호스트가 선정해 모임 공간에서 함께 감상해요. 확정 안내 시 작품 정보를 함께 알려드려요.</p>
+    </details>
+    <details>
+      <summary>대화가 어색하면 어떻게 하나요?</summary>
+      <p>방금 함께 본 영화에 대한 감상으로 이야기를 시작해서 첫 대화가 한결 자연스러워요. 호스트가 가벼운 대화 주제도 함께 안내해드리니 편하게 오셔도 괜찮아요.</p>
+    </details>
+
+    <div class="faq-group">결제 · 취소</div>
+    <details>
+      <summary>결제는 언제 하나요?</summary>
+      <p>신청 시에는 결제하지 않아요. 참가 확정 후 계좌번호와 함께 개별 안내드려요.</p>
+    </details>
+    <details>
+      <summary>신청 후 취소할 수 있나요?</summary>
+      <p>모임일 기준 10일 전까지 100%, 7~9일 전 70%, 5~6일 전 50% 환불이며, 4일 전부터는 환불이 어려워요. 입금 전 취소는 자유롭게 가능해요.</p>
+    </details>
+  </div>
+</section>
+
+</main>
+
+<script>
+(function(){
+  // ---- 회차 데이터 ----
+  var open = {status:'open'};
+  var sessionsData = [
+    {
+      type:'talk',
+      date:'2026-08-08', day:'토', time:'저녁 6시 30분', location:'성수', group:'B그룹',
+      ageInfo:'남 85~92년생 · 여 88~93년생', closed:true,
+      male:[
+        {info:'88/대기업/178'},{info:'90/공기업/175'},{info:'86/자영업/180'},{info:'89/제약회사/176'},
+        {info:'87/공무원/181'},{info:'91/스타트업/174'},{info:'85/변호사/179'},{info:'89/금융권/177'},
+        {info:'86/의사/182'},{info:'90/건축사/175'},{info:'88/회계사/179'},{info:'92/공기업/176'}
+      ],
+      female:[
+        {info:'91/승무원/163'},{info:'89/간호사/161'},{info:'92/디자이너/159'},{info:'88/교사/164'},
+        {info:'90/사무직/160'},{info:'93/약사/162'},{info:'89/마케터/158'},{info:'91/대기업/163'},
+        {info:'88/방송직/165'},{info:'92/보건직/159'},{info:'90/은행원/161'},{info:'93/자영업/160'}
+      ]
+    },
+    {
+      type:'talk',
+      date:'2026-08-22', day:'토', time:'저녁 6시 30분', location:'강남', group:'A그룹',
+      ageInfo:'남 90~97년생 · 여 93~00년생', closed:true,
+      male:[
+        {info:'92/IT회사/177'},{info:'95/금융권/174'},{info:'93/대기업/180'},{info:'96/공무원/176'},
+        {info:'94/건축사/183'},{info:'97/회계사/173'},{info:'91/제조업/178'},{info:'95/의사/181'},
+        {info:'93/스타트업/177'},{info:'96/은행원/174'},{info:'92/공기업/179'},{info:'94/변호사/182'}
+      ],
+      female:[
+        {info:'96/승무원/161'},{info:'98/대학원생/159'},{info:'94/마케터/163'},{info:'97/사무직/158'},
+        {info:'95/간호사/162'},{info:'99/디자이너/160'},{info:'93/약사/164'},{info:'96/보건직/159'},
+        {info:'98/대기업/162'},{info:'94/방송직/160'},{info:'97/은행원/163'},{info:'95/교사/161'}
+      ]
+    },
+    {
+      type:'talk',
+      date:'2026-09-05', day:'토', time:'저녁 6시 30분', location:'강남', group:'A그룹',
+      ageInfo:'남 90~97년생 · 여 93~00년생', closed:true,
+      male:[
+        {info:'90/대기업/177'},{info:'93/IT회사/176'},{info:'96/설계업/174'},{info:'92/건설사/178'},
+        {info:'96/공무원/182'},{info:'94/교사/185'},{info:'97/공무원/179'},{info:'96/은행원/176'},
+        {info:'94/회계사/177'},{info:'95/대기업/180'}, open, open
+      ],
+      female:[
+        {info:'99/대학원생/162'},{info:'97/디자이너/158'},{info:'96/사무직/163'},{info:'97/사무직/160'},
+        {info:'98/마케팅/166'},{info:'00/대학생/163'},{info:'94/자영업/167'},{info:'99/의료직/163'},
+        {info:'94/무역업/159'}, open, open, open
+      ]
+    },
+    {
+      type:'talk',
+      date:'2026-09-12', day:'토', time:'저녁 6시 30분', location:'강남', group:'A그룹',
+      ageInfo:'남 90~97년생 · 여 93~00년생', closed:true,
+      male:[
+        {info:'93/대기업/175'},{info:'97/개발자/174'},{info:'90/변호사/172'},{info:'94/금융권/177'},
+        {info:'97/공무원/180'},{info:'94/교사/185'},{info:'94/약사/173'},{info:'92/대기업/180'},
+        {info:'93/공기업/177'}, open, open, open
+      ],
+      female:[
+        {info:'97/간호사/160'},{info:'00/대학생/162'},{info:'96/대기업/168'},{info:'94/의료직/162'},
+        {info:'97/공무원/158'},{info:'99/은행원/159'},{info:'94/자영업/167'},{info:'98/중견기업/160'},
+        {info:'96/보건직/161'}, open, open, open
+      ]
+    },
+    {
+      type:'talk',
+      date:'2026-09-19', day:'토', time:'저녁 6시 30분', location:'강남', group:'A그룹',
+      ageInfo:'남 90~97년생 · 여 93~00년생', closed:true,
+      male:[
+        {info:'97/대기업/175'},{info:'94/금융권/176'},{info:'93/공무원/173'},{info:'96/대기업/177'},
+        {info:'97/사무직/178'}, open, open, open, open, open, open, open
+      ],
+      female:[
+        {info:'95/사무직/160'},{info:'99/대기업/162'},{info:'00/대학원생/160'},{info:'98/대기업/163'},
+        open, open, open, open, open, open, open, open
+      ]
+    },
+    {
+      type:'talk',
+      date:'2026-09-19', day:'토', time:'저녁 6시 30분', location:'구로', group:'A그룹',
+      ageInfo:'남 90~97년생 · 여 93~00년생', closed:true,
+      male:[
+        {info:'96/IT회사/173'},{info:'94/공무원/174'},{info:'97/마케터/180'},{info:'94/금융권/178'},
+        open, open, open, open, open, open, open, open
+      ],
+      female:[
+        {info:'96/의료직/162'},{info:'99/대기업/166'},{info:'98/사무직/158'},{info:'99/대학원생/163'},
+        open, open, open, open, open, open, open, open
+      ]
+    },
+    {
+      type:'talk',
+      date:'2026-09-20', day:'일', time:'오후 3시', location:'강남', group:'A그룹',
+      ageInfo:'남 90~97년생 · 여 93~00년생', closed:true,
+      bulkOpen: true,
+      male:[], female:[]
+    },
+    {
+      type:'talk',
+      date:'2026-10-24', day:'토', time:'오후 3시 30분', location:'강남', group:'A그룹',
+      ageInfo:'남 93~99년생 · 여 95~01년생', closed:true,
+      male:[
+        {info:'94/대기업/179'},{info:'96/IT회사/176'},{info:'93/금융권/181'},{info:'97/공기업/175'},
+        open, open, open, open, open, open, open, open
+      ],
+      female:[
+        {info:'96/대기업/163'},{info:'98/간호사/161'},{info:'95/디자이너/160'},{info:'99/사무직/164'},
+        open, open, open, open, open, open, open, open
+      ]
+    },
+    {
+      type:'talk',
+      date:'2026-12-06', day:'일', time:'오후 3시 30분', location:'강남', group:'1:1 대화 · A그룹',
+      ageInfo:'남 93~99년생 · 여 95~01년생',
+      male:[
+        {info:'94/대기업/178'},{info:'96/IT회사/175'},{info:'93/금융권/181'}, open,
+        open, open, open, open, open, open, open, open
+      ],
+      female:[
+        {info:'96/대기업/163'},{info:'98/간호사/161'},{info:'95/디자이너/160'}, open,
+        open, open, open, open, open, open, open, open
+      ]
+    },
+    {
+      type:'movie',
+      date:'2026-12-13', day:'일', time:'오후 3시 30분', location:'강남', group:'영화 모임 · A그룹',
+      ageInfo:'남 93~99년생 · 여 95~01년생',
+      male:[
+        {info:'95/IT회사/177'},{info:'93/대기업/180'}, open, open,
+        open, open, open, open, open, open, open, open
+      ],
+      female:[
+        {info:'97/마케터/162'},{info:'99/디자이너/159'},{info:'96/사무직/164'}, open,
+        open, open, open, open, open, open, open, open
+      ]
+    },
+    {
+      type:'talk',
+      date:'2026-12-19', day:'토', time:'오후 3시 30분', location:'강남', group:'1:1 대화 · A그룹',
+      ageInfo:'남 93~99년생 · 여 95~01년생',
+      male:[
+        {info:'94/금융권/179'},{info:'97/대기업/176'}, open, open,
+        open, open, open, open, open, open, open, open
+      ],
+      female:[
+        {info:'96/간호사/162'},{info:'98/사무직/160'}, open, open,
+        open, open, open, open, open, open, open, open
+      ]
+    },
+    {
+      type:'talk',
+      date:'2026-12-27', day:'일', time:'오후 3시 30분', location:'강남', group:'1:1 대화 · A그룹',
+      ageInfo:'남 93~99년생 · 여 95~01년생',
+      male:[
+        {info:'95/대기업/180'}, open, open, open,
+        open, open, open, open, open, open, open, open
+      ],
+      female:[
+        {info:'97/대기업/163'},{info:'99/마케터/160'}, open, open,
+        open, open, open, open, open, open, open, open
+      ]
+    }
+  ];
+
+  var dow = ['일','월','화','수','목','금','토'];
+  var applyLink = 'https://tally.so/r/VLkLLE';
+  var activeMode = 'talk';
+  var monthMap = {};
+  sessionsData.forEach(function(s){
+    var key = s.date.slice(0,7); // YYYY-MM
+    if(!monthMap[key]) monthMap[key] = [];
+    monthMap[key].push(s);
+  });
+  var monthKeys = Object.keys(monthMap).sort();
+  var activeMonth = monthKeys[monthKeys.length - 1];
+  var selectedDate = '2026-12-06';
+  var selectedIndex = 0;
+
+  var monthTabsEl = document.getElementById('monthTabs');
+  var calTitleEl = document.getElementById('calTitle');
+  var calGridEl = document.getElementById('calGrid');
+  var detailEl = document.getElementById('sessionDetail');
+
+  // history.replaceState로 하위 경로(/talk/, /movie/)가 바뀌어도 상대 이미지 경로가 깨지지 않도록 초기 절대 URL로 고정
+  document.querySelectorAll('img, link[rel="icon"]').forEach(function(el){
+    if(el.tagName === 'IMG' && el.src) el.setAttribute('src', el.src);
+    if(el.tagName === 'LINK' && el.href) el.setAttribute('href', el.href);
+  });
+
+  var initialPath = window.location.pathname.replace(/\/index\.html$/, '/');
+  if(!/\/$/.test(initialPath)) initialPath += '/';
+  var rootPath = initialPath.replace(/\/(talk|movie)\/$/, '/');
+
+  function detectInitialMode(){
+    var path = window.location.pathname.replace(/\/index\.html$/, '');
+    if(/\/movie\/?$/.test(path)) return 'movie';
+    if(/\/talk\/?$/.test(path)) return 'talk';
+    if(window.URLSearchParams){
+      var params = new URLSearchParams(window.location.search);
+      var q = params.get('tab') || params.get('mode') || params.get('type');
+      if(q === 'movie' || q === 'talk') return q;
+    }
+    var h = (window.location.hash || '').replace(/^#\/?/, '');
+    if(h === 'movie' || h === 'talk') return h;
+    return document.body.getAttribute('data-default-mode') || 'talk';
+  }
+
+  // 다시 그린 뒤에도 키보드 초점이 방금 누른 자리에 남도록
+  function refocus(root, selector){
+    var el = root.querySelector(selector);
+    if(el) el.focus();
+  }
+
+  function setMode(mode, updateUrl){
+    if(mode !== 'talk' && mode !== 'movie') return;
+    activeMode = mode;
+    document.title = mode === 'movie' ? 'FINDY — 영화 모임' : 'FINDY — 1:1 대화 모임';
+
+    var modeBtns = document.querySelectorAll('.mode-tab');
+    modeBtns.forEach(function(btn){
+      var isAct = btn.getAttribute('data-mode') === mode;
+      btn.classList.toggle('active', isAct);
+      btn.setAttribute('aria-pressed', isAct ? 'true' : 'false');
+    });
+
+    var panes = document.querySelectorAll('[data-mode-pane]');
+    panes.forEach(function(pane){
+      var show = pane.getAttribute('data-mode-pane') === mode;
+      if(show){
+        pane.removeAttribute('hidden');
+        pane.classList.add('in');
+        pane.querySelectorAll('.rv').forEach(function(el){ el.classList.add('in'); });
+      } else {
+        pane.setAttribute('hidden', '');
+      }
+    });
+
+    if(updateUrl && window.history && window.history.replaceState){
+      if(window.location.protocol === 'http:' || window.location.protocol === 'https:'){
+        var nextUrl = rootPath + mode + '/' + window.location.search;
+        window.history.replaceState({mode: mode}, '', nextUrl);
+      } else {
+        window.history.replaceState({mode: mode}, '', '#' + mode);
+      }
+    }
+
+    activeMonth = monthKeys[monthKeys.length - 1];
+    var monthSessions = monthMap[activeMonth] || [];
+    var matchSession = monthSessions.find(function(s){ return s.type === mode && !s.closed; }) || monthSessions[0];
+    selectedDate = matchSession ? matchSession.date : null;
+    selectedIndex = 0;
+    renderMonthTabs();
+    renderCalendar();
+    renderDetail();
+  }
+
+  document.querySelectorAll('.mode-tab').forEach(function(btn){
+    btn.onclick = function(){
+      setMode(btn.getAttribute('data-mode'), true);
+    };
+  });
+
+  function renderMonthTabs(){
+    monthTabsEl.innerHTML = '';
+    monthKeys.forEach(function(key){
+      var m = parseInt(key.slice(5,7), 10);
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'month-tab' + (key === activeMonth ? ' active' : '');
+      btn.setAttribute('aria-pressed', key === activeMonth ? 'true' : 'false');
+      btn.textContent = m + '월';
+      btn.onclick = function(){
+        activeMonth = key;
+        var monthSessions = monthMap[activeMonth] || [];
+        var firstOpen = monthSessions.find(function(s){ return !s.closed; }) || monthSessions[0];
+        selectedDate = firstOpen ? firstOpen.date : null;
+        selectedIndex = 0;
+        renderMonthTabs();
+        renderCalendar();
+        renderDetail();
+        refocus(monthTabsEl, '.active');
+      };
+      monthTabsEl.appendChild(btn);
+    });
+  }
+
+  function renderCalendar(){
+    var year = parseInt(activeMonth.slice(0,4), 10);
+    var month = parseInt(activeMonth.slice(5,7), 10);
+    calTitleEl.textContent = year + '년 ' + month + '월';
+    calGridEl.innerHTML = '';
+
+    dow.forEach(function(d){
+      var el = document.createElement('div');
+      el.className = 'cal-dow';
+      el.textContent = d;
+      calGridEl.appendChild(el);
+    });
+
+    var firstDow = new Date(year, month - 1, 1).getDay();
+    var daysInMonth = new Date(year, month, 0).getDate();
+
+    for(var i=0;i<firstDow;i++){
+      var empty = document.createElement('div');
+      empty.className = 'cal-day empty';
+      calGridEl.appendChild(empty);
+    }
+
+    for(var d=1; d<=daysInMonth; d++){
+      var dateStr = activeMonth + '-' + (d < 10 ? '0'+d : d);
+      var sessionsOnDay = monthMap[activeMonth].filter(function(s){ return s.date === dateStr; });
+      var allClosed = sessionsOnDay.length > 0 && sessionsOnDay.every(function(s){ return s.closed; });
+      var isMovie = sessionsOnDay.length > 0 && sessionsOnDay.every(function(s){ return s.type === 'movie'; });
+      var cell = document.createElement(sessionsOnDay.length ? 'button' : 'div');
+      cell.className = 'cal-day'
+        + (sessionsOnDay.length ? ' has-session' : '')
+        + (isMovie ? ' is-movie' : '')
+        + (allClosed ? ' is-closed' : '')
+        + (dateStr === selectedDate ? ' selected' : '');
+      var num = document.createElement('span');
+      num.textContent = d;
+      cell.appendChild(num);
+      if(sessionsOnDay.length){
+        cell.type = 'button';
+        var labelType = isMovie ? '영화 모임' : '1:1 대화 모임';
+        cell.setAttribute('aria-label', month + '월 ' + d + '일 ' + labelType + ' 회차 보기' + (allClosed ? ' (마감)' : ''));
+        cell.setAttribute('aria-pressed', dateStr === selectedDate ? 'true' : 'false');
+        var dot = document.createElement('span');
+        dot.className = 'dot';
+        cell.appendChild(dot);
+        cell.onclick = (function(dateStr){
+          return function(){
+            selectedDate = dateStr;
+            selectedIndex = 0;
+            renderCalendar();
+            renderDetail();
+            refocus(calGridEl, '.selected');
+          };
+        })(dateStr);
+      }
+      calGridEl.appendChild(cell);
+    }
+  }
+
+  function renderDetailPlaceholder(){
+    detailEl.innerHTML = '<p class="cal-placeholder">캘린더에서 회차가 있는 날짜를 선택해주세요.</p>';
+  }
+
+  function attendeeRowHtml(no, person){
+    if(person.status === 'open'){
+      return '<div class="attendee-row"><span class="attendee-no">'+no+'</span><span class="attendee-info attendee-open">모집중</span></div>';
+    }
+    return '<div class="attendee-row"><span class="attendee-no">'+no+'</span><span class="attendee-info">'+person.info+'</span></div>';
+  }
+
+  function renderDetail(){
+    if(!selectedDate) { renderDetailPlaceholder(); return; }
+    var daySessions = monthMap[activeMonth].filter(function(s){ return s.date === selectedDate; });
+    if(!daySessions.length) { renderDetailPlaceholder(); return; }
+    var html = '';
+
+    if(daySessions.length > 1){
+      html += '<div class="seg">';
+      daySessions.forEach(function(s, idx){
+        html += '<button type="button" class="subtab' + (idx === selectedIndex ? ' active' : '') + '" aria-pressed="' + (idx === selectedIndex) + '" data-idx="'+idx+'">' + s.location + '</button>';
+      });
+      html += '</div>';
+    }
+
+    var s = daySessions[selectedIndex] || daySessions[0];
+    var isMovie = s.type === 'movie';
+    var dateParts = s.date.split('-');
+    var maleOpen = s.male.filter(function(p){return p.status==='open';}).length;
+    var femaleOpen = s.female.filter(function(p){return p.status==='open';}).length;
+    // 마감된 회차는 빈자리 줄을 보여주지 않음
+    var filled = function(p){ return p.status !== 'open'; };
+    var male = s.closed ? s.male.filter(filled) : s.male;
+    var female = s.closed ? s.female.filter(filled) : s.female;
+    var tagClass = s.closed ? ' closed-tag' : (isMovie ? ' movie-tag' : '');
+
+    html += '<div class="detail-card">';
+    html += '  <div class="detail-head">';
+    html += '    <div><b>'+parseInt(dateParts[1],10)+' / '+parseInt(dateParts[2],10)+' ('+s.day+')</b><span>'+s.time+' · '+s.location+'</span></div>';
+    html += '    <div class="detail-tags'+tagClass+'">'+(s.closed ? '모집 마감 · ' : '')+s.group+' · '+s.ageInfo+'</div>';
+    html += '  </div>';
+    if(s.bulkOpen){
+      html += '  <div class="detail-status'+(s.closed ? ' closed' : '')+'">'+(s.closed ? '모집 마감' : '모집중')+'</div>';
+    } else {
+      html += '  <div class="attendee-grid">';
+      html += '    <div class="attendee-col"><h3>남성 ('+(12-maleOpen)+'/12)</h3>' + male.map(function(p,i){return attendeeRowHtml(i+1,p);}).join('') + '</div>';
+      html += '    <div class="attendee-col"><h3>여성 ('+(12-femaleOpen)+'/12)</h3>' + female.map(function(p,i){return attendeeRowHtml(i+1,p);}).join('') + '</div>';
+      html += '  </div>';
+    }
+    html += '  <div class="detail-foot">';
+    if(s.closed){
+      html += '    <span class="btn-primary disabled">모집 마감된 회차예요</span>';
+    } else {
+      html += '    <a class="btn-primary'+(isMovie ? ' movie-btn' : '')+'" href="'+applyLink+'" target="_blank" rel="noopener">이 회차 신청하기</a>';
+    }
+    html += '  </div>';
+    html += '</div>';
+
+    detailEl.innerHTML = html;
+
+    if(daySessions.length > 1){
+      var subtabs = detailEl.querySelectorAll('.subtab');
+      subtabs.forEach(function(btn){
+        btn.onclick = function(){
+          selectedIndex = parseInt(btn.getAttribute('data-idx'), 10);
+          renderDetail();
+          refocus(detailEl, '.subtab.active');
+        };
+      });
+    }
+  }
+
+  setMode(detectInitialMode(), false);
+})();
+</script>
+
+<footer>
+  <div class="wrap">
+    <div class="f-brand"><img src="../findy-logo.jpg" alt="FINDY 로고" width="22" height="22">FINDY</div>
+    <div class="f-legal" style="display:none;">
+      <b>상호명</b> (예시) ○○○ · <b>대표</b> ○○○ · <b>사업자등록번호</b> 000-00-00000<br>
+      <b>통신판매업신고</b> 0000-서울○○-0000호 · <b>결혼중개업신고</b> 서울-○○-국내 00-0000<br>
+      <b>주소</b> 서울특별시 ○○구 ○○로 00, 000호<br>
+      <b>문의</b> findy@example.com · 카카오톡 채널 @findy<br><br>
+    </div>
+    <div class="f-links">
+      <a href="#">이용약관</a>
+      <a href="#">개인정보처리방침</a>
+      <a href="https://www.instagram.com/finallyfoundlover/">Instagram</a>
+      <a href="https://linktr.ee/finallyfoundlover">Linktree</a>
+    </div>
+  </div>
+</footer>
+<a class="kakao-float" href="http://pf.kakao.com/_eZPrX" target="_blank" rel="noopener">
+  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path fill="#191919" d="M12 3C6.48 3 2 6.58 2 11c0 2.86 1.87 5.37 4.68 6.79-.15.55-.96 3.49-.99 3.72 0 0-.02.16.09.22a.3.3 0 0 0 .24 0c.32-.05 3.68-2.42 4.26-2.83.55.08 1.12.12 1.72.12 5.52 0 10-3.58 10-8s-4.48-8-10-8z"/></svg>
+  카카오톡 문의하기
+</a>
+
+<script>
+// 각 묶음이 화면에 들어올 때 한 번 아래에서 떠오름
+(function(){
+  if(!('IntersectionObserver' in window)||window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var targets=document.querySelectorAll('.story-head,.story-step,main > section:not(.hero):not(.story) > .wrap');
+  var io=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}
+    });
+  },{rootMargin:'0px 0px -10% 0px'});
+  targets.forEach(function(t){t.classList.add('rv');io.observe(t);});
+})();
+</script>
+
+</body>
+</html>
